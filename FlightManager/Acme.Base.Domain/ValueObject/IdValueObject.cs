@@ -7,7 +7,7 @@ namespace Acme.Base.Domain.ValueObject;
 
 public abstract class IdValueObject : ValueObject
 {
-    public Guid Value { get; private set; }
+    internal Guid Value { get; private set; }
 
     protected IdValueObject(Guid value) =>
         Value = value;
@@ -17,5 +17,6 @@ public abstract class IdValueObject : ValueObject
         yield return Value;
     }
 
-    public abstract ErrorOr<IdValueObject> Create(IIdentityFactory<Guid> identityFactory);
+    public abstract ErrorOr<TIdValueObject> Create<TIdValueObject>(IIdentityFactory<Guid> identityFactory)
+        where TIdValueObject : IdValueObject;
 }

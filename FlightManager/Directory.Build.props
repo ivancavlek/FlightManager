@@ -1,11 +1,8 @@
 ﻿<Project>
-  <ItemGroup Condition="'$(MSBuildProjectName)' == 'Acme.Domain.Base'">
-    <!--<PackageReference Include="Light.GuardClauses"
-                      Version="*" />-->
-  </ItemGroup>
-  <ItemGroup Condition="'$(MSBuildProjectName.Contains(`Domain`))' Or '$(MSBuildProjectName.Contains(`UseCases`))'">
-    <!--<Using Include="Light.GuardClauses" />-->
-  </ItemGroup>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectName.Contains(`Test`))' And '$(OutputType)' == 'Exe'">
     <PackageReference Include="Fixie"
                       Version="*" />
@@ -18,13 +15,4 @@
                       Version="*" />
     <Using Include="NSubstitute" />
   </ItemGroup>
-  <PropertyGroup Condition="'$(OutputType)' == 'Library'">
-    <TargetFramework>netstandard2.1</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(OutputType)' == 'Exe'">
-    <TargetFramework>net7.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
 </Project>

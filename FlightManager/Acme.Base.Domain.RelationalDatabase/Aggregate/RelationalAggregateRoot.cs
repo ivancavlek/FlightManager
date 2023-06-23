@@ -1,12 +1,10 @@
-﻿using Acme.Base.Domain.Aggregate;
-using Acme.Base.Domain.ValueObject;
+﻿using Acme.Base.Domain.Entity;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Acme.Base.Domain.RelationalDatabase.Aggregate;
 
-public class SqlServerAggregateRoot<TKey> : AggregateRoot<TKey>
-    where TKey : IdValueObject
+public abstract class RelationalAggregateRoot : BaseEntity, IAggregateRoot
 {
     [ConcurrencyCheck]
     protected Guid Version { get; private set; }

@@ -6,7 +6,7 @@ namespace Acme.Base.Domain.ValueObject;
 
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    public abstract IEnumerable<object> PropertiesForEqualizing();
+    protected abstract IEnumerable<object> PropertiesForEqualizing();
 
     public override bool Equals(object obj)
     {

@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <PackageReference Include="ErrorOr" />
     <PackageReference Include="NewId" />
     <PackageReference Include="Throw" />
   </ItemGroup>
-
 </Project>

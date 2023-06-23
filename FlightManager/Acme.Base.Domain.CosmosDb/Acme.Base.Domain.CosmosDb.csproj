@@ -1,7 +1,5 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Acme.Base.Domain\Acme.Base.Domain.csproj" />
   </ItemGroup>
-
 </Project>

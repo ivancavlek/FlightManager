@@ -1,5 +1,6 @@
 ﻿using Acme.Base.Domain.CosmosDb.Factory;
 using Acme.Base.Domain.Entity;
+using Acme.Base.Domain.ValueObject;
 
 namespace Acme.Base.Domain.CosmosDb.Aggregate;
 
@@ -11,7 +12,7 @@ public abstract class CosmosDbAggregateRoot : BaseEntity, IAggregateRoot
 
     protected CosmosDbAggregateRoot() { }
 
-    public CosmosDbAggregateRoot(IPartitionKeyFactory partitionKeyFactory)
+    protected CosmosDbAggregateRoot(IdValueObject id, IPartitionKeyFactory partitionKeyFactory) : base(id)
     {
         Discriminator = GetType().Name;
         PartitionKey = partitionKeyFactory/*.Throw(nameof(partitionKeyFactory))*/.CreatePartitionKey();

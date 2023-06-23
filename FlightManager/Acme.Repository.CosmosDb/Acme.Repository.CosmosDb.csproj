@@ -1,11 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Cosmos" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Acme.Base.Domain.CosmosDb\Acme.Base.Domain.CosmosDb.csproj" />
   </ItemGroup>
-
 </Project>

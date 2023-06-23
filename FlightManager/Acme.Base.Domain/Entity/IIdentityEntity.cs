@@ -2,11 +2,9 @@
 
 namespace Acme.Base.Domain.Entity;
 
-public interface IIdentityEntity<TKey, TEntity>
+// used to prevent "configuration hell" for EF and Cosmos, but enables programmers to avoid primitive obsession
+public interface IIdentityEntity<TKey>
     where TKey : IdValueObject
-    where TEntity : BaseEntity
 {
     public TKey MainId { get; }
-
-    public TEntity Create(TKey key);
 }

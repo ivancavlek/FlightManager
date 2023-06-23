@@ -26,6 +26,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Repository.CosmosDb", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Repository.RelationalDatabase", "Acme.Repository.RelationalDatabase\Acme.Repository.RelationalDatabase.csproj", "{7FAA18CD-DB47-46C8-A00A-9F396F209407}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bounded Context", "Bounded Context", "{1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlightDirector", "FlightDirector", "{C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.FlightDirector.Domain", "Acme.FlightManager.FlightDirector.Domain\Acme.FlightManager.FlightDirector.Domain.csproj", "{C6ABD639-7F83-404E-8212-6618623B667F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +58,10 @@ Global
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6ABD639-7F83-404E-8212-6618623B667F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6ABD639-7F83-404E-8212-6618623B667F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6ABD639-7F83-404E-8212-6618623B667F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6ABD639-7F83-404E-8212-6618623B667F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +74,8 @@ Global
 		{07E80FD6-1606-4257-8CE8-A8FC99D0EF3C} = {D5C579BB-2EF0-4940-B5BB-EF4B015ED476}
 		{7B00E666-B143-426B-89D9-1CBD0B9E5903} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
+		{C18D60CD-1EB1-4F40-8CBD-0E3806B64E21} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
+		{C6ABD639-7F83-404E-8212-6618623B667F} = {C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD9B40-0135-4A2E-9016-568BC3AFFD7D}

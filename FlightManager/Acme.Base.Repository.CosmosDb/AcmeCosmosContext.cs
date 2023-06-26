@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Acme.Repository.CosmosDb;
+namespace Acme.Base.Repository.CosmosDb;
 
 public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDeleteUnitOfWork, ICosmosDbRepository
 {

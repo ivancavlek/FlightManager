@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Acme.Repository.RelationalDatabase;
+namespace Acme.Base.Repository.RelationalDatabase;
 
 public abstract class BaseContext : DbContext, IRelationalDbRepository, IRelationalDbDeleteUnitOfWork
 {

@@ -22,9 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Domain.Relational
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Repository.CosmosDb", "Acme.Repository.CosmosDb\Acme.Repository.CosmosDb.csproj", "{7B00E666-B143-426B-89D9-1CBD0B9E5903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Repository.CosmosDb", "Acme.Base.Repository.CosmosDb\Acme.Base.Repository.CosmosDb.csproj", "{7B00E666-B143-426B-89D9-1CBD0B9E5903}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Repository.RelationalDatabase", "Acme.Repository.RelationalDatabase\Acme.Repository.RelationalDatabase.csproj", "{7FAA18CD-DB47-46C8-A00A-9F396F209407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Repository.RelationalDatabase", "Acme.Base.Repository.RelationalDatabase\Acme.Base.Repository.RelationalDatabase.csproj", "{7FAA18CD-DB47-46C8-A00A-9F396F209407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bounded Context", "Bounded Context", "{1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}"
 EndProject
@@ -44,9 +44,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.MilesAnd
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{901AAF06-1610-4038-B054-3BCCB822C11D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.DestinationDirector.Domain", "Acme.FlightManager.DestinationDirector.Domain\Acme.FlightManager.DestinationDirector.Domain.csproj", "{9CDF8A8B-713C-404C-A85F-C62579B845AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.DestinationDirector.Domain", "Acme.FlightManager.DestinationDirector.Domain\Acme.FlightManager.DestinationDirector.Domain.csproj", "{9CDF8A8B-713C-404C-A85F-C62579B845AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.Common.Domain", "Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj", "{63153FA0-6C5A-4D49-9A39-A745545201DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Common.Domain", "Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj", "{63153FA0-6C5A-4D49-9A39-A745545201DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

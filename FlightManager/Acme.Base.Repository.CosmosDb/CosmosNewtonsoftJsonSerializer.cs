@@ -10,7 +10,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace Douglas.Repository.CosmosDb;
+namespace Acme.Base.Repository.CosmosDb;
 
 public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
 {

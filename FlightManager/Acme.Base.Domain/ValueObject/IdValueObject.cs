@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Acme.Base.Domain.ValueObject;
 
-public class IdValueObject : ValueObject
+public class IdValueObject : BaseValueObject
 {
     internal Guid Value { get; private set; }
 

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34682D48-A333-4489-B341-36FDC2050669}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		..\..\..\..\..\Downloads\editorconfig.txt = ..\..\..\..\..\Downloads\editorconfig.txt
-		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{D5C579BB-2EF0-4940-B5BB-EF4B015ED476}"
@@ -30,7 +30,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bounded Context", "Bounded 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlightDirector", "FlightDirector", "{C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.FlightDirector.Domain", "Acme.FlightManager.FlightDirector.Domain\Acme.FlightManager.FlightDirector.Domain.csproj", "{C6ABD639-7F83-404E-8212-6618623B667F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.FlightDirector.Domain", "Acme.FlightManager.FlightDirector.Domain\Acme.FlightManager.FlightDirector.Domain.csproj", "{C6ABD639-7F83-404E-8212-6618623B667F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DestinationDirector", "DestinationDirector", "{4FAFF665-3EF1-4ED3-BB56-F64CDB9E0F37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plane", "Plane", "{58CF4AC4-1D9E-4A38-A15F-E07417F0DC18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MilesAndMore", "MilesAndMore", "{07E75606-F0CD-42A7-96BA-1A5CD7BCC7C8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Plane.Domain", "Acme.FlightManager.Plane.Domain\Acme.FlightManager.Plane.Domain.csproj", "{156E6CB5-F5F4-441E-B3E2-ADDB46052100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.MilesAndMore.Domain", "Acme.FlightManager.MilesAndMore.Domain\Acme.FlightManager.MilesAndMore.Domain.csproj", "{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{901AAF06-1610-4038-B054-3BCCB822C11D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.DestinationDirector.Domain", "Acme.FlightManager.DestinationDirector.Domain\Acme.FlightManager.DestinationDirector.Domain.csproj", "{9CDF8A8B-713C-404C-A85F-C62579B845AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.Common.Domain", "Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj", "{63153FA0-6C5A-4D49-9A39-A745545201DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +78,22 @@ Global
 		{C6ABD639-7F83-404E-8212-6618623B667F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6ABD639-7F83-404E-8212-6618623B667F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6ABD639-7F83-404E-8212-6618623B667F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{156E6CB5-F5F4-441E-B3E2-ADDB46052100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{156E6CB5-F5F4-441E-B3E2-ADDB46052100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{156E6CB5-F5F4-441E-B3E2-ADDB46052100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{156E6CB5-F5F4-441E-B3E2-ADDB46052100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CDF8A8B-713C-404C-A85F-C62579B845AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CDF8A8B-713C-404C-A85F-C62579B845AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CDF8A8B-713C-404C-A85F-C62579B845AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CDF8A8B-713C-404C-A85F-C62579B845AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +108,14 @@ Global
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
 		{C18D60CD-1EB1-4F40-8CBD-0E3806B64E21} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
 		{C6ABD639-7F83-404E-8212-6618623B667F} = {C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}
+		{4FAFF665-3EF1-4ED3-BB56-F64CDB9E0F37} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
+		{58CF4AC4-1D9E-4A38-A15F-E07417F0DC18} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
+		{07E75606-F0CD-42A7-96BA-1A5CD7BCC7C8} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
+		{156E6CB5-F5F4-441E-B3E2-ADDB46052100} = {58CF4AC4-1D9E-4A38-A15F-E07417F0DC18}
+		{A874EBAC-E337-495F-B25E-BB3BE6BD56AA} = {07E75606-F0CD-42A7-96BA-1A5CD7BCC7C8}
+		{901AAF06-1610-4038-B054-3BCCB822C11D} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
+		{9CDF8A8B-713C-404C-A85F-C62579B845AA} = {4FAFF665-3EF1-4ED3-BB56-F64CDB9E0F37}
+		{63153FA0-6C5A-4D49-9A39-A745545201DA} = {901AAF06-1610-4038-B054-3BCCB822C11D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD9B40-0135-4A2E-9016-568BC3AFFD7D}

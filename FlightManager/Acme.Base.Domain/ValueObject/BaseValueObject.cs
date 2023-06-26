@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Acme.Base.Domain.ValueObject;
 
-public abstract class ValueObject : IEquatable<ValueObject>
+public abstract class BaseValueObject : IEquatable<BaseValueObject>
 {
     protected abstract IEnumerable<object> PropertiesForEqualizing();
 
     public override bool Equals(object obj)
     {
-        if (obj is null || obj.GetType() != typeof(ValueObject))
+        if (obj is null || obj.GetType() != typeof(BaseValueObject))
             return false;
 
-        var valueObject = (ValueObject)obj;
+        var valueObject = (BaseValueObject)obj;
 
         return PropertiesForEqualizing().SequenceEqual(valueObject.PropertiesForEqualizing());
     }
@@ -21,12 +21,12 @@ public abstract class ValueObject : IEquatable<ValueObject>
     public override int GetHashCode() =>
         PropertiesForEqualizing().Aggregate(default(int), HashCode.Combine);
 
-    bool IEquatable<ValueObject>.Equals(ValueObject other) =>
+    bool IEquatable<BaseValueObject>.Equals(BaseValueObject other) =>
         Equals(other);
 
-    public static bool operator ==(ValueObject left, ValueObject right) =>
+    public static bool operator ==(BaseValueObject left, BaseValueObject right) =>
         Equals(left, right);
 
-    public static bool operator !=(ValueObject left, ValueObject right) =>
+    public static bool operator !=(BaseValueObject left, BaseValueObject right) =>
         !Equals(left, right);
 }

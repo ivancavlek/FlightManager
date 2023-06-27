@@ -12,5 +12,5 @@ public abstract class BaseFlightDirectorEntity<TKey> : CosmosDbAggregateRoot, II
     protected BaseFlightDirectorEntity(IdValueObject id, IRoute route)
         : base(id, new FlightDirectorPartitionKeyFactory(route)) { }
 
-    public TKey MainId { get; }
+    public TKey MainId { get; private set; }
 }

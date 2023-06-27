@@ -9,5 +9,5 @@ public abstract class BasePlaneEntity<TKey> : RelationalAggregateRoot, IIdentity
 {
     protected BasePlaneEntity(IdValueObject id) : base(id) { }
 
-    public TKey MainId { get; }
+    public TKey MainId { get; private set; }
 }

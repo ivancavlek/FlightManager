@@ -6,6 +6,7 @@ namespace Acme.FlightManager.DestinationDirector.Domain.ValueObject;
 
 public class Route : BaseDestinationDirectorEntity<RouteId>, IRoute
 {
+    // ToDo: Could we play with Graph Database?
     // ToDo: maybe with actual coordinates to calculate hours
     public string Destination { get; private set; }
     public int DistanceInKilometers { get; private set; }

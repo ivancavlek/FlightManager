@@ -17,10 +17,10 @@ public class Flight : BaseFlightDirectorEntity<FlightId>, IPlaneConfiguration, I
         get => _tickets.AsReadOnly();
         private set => _tickets = value.ToList();
     }
-    public string PlaneType { get; }
-    public int Seats { get; }
-    public string Destination { get; }
-    public string PointOfDeparture { get; }
+    public string PlaneType { get; private set; }
+    public int Seats { get; private set; }
+    public string Destination { get; private set; }
+    public string PointOfDeparture { get; private set; }
 
     protected Flight(IdValueObject id, IRoute route) : base(id, route) { }
 

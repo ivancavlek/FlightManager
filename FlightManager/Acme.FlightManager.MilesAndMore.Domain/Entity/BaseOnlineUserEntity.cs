@@ -9,5 +9,5 @@ public abstract class BaseOnlineUserEntity<TKey> : RelationalAggregateRoot, IIde
 {
     protected BaseOnlineUserEntity(IdValueObject id) : base(id) { }
 
-    public TKey MainId { get; }
+    public TKey MainId { get; private set; }
 }

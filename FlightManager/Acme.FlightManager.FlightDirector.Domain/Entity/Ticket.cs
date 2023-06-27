@@ -9,9 +9,10 @@ namespace Acme.FlightManager.FlightDirector.Domain.Entity;
 public class Ticket : BaseFlightDirectorEntity<TicketId>, IPassengerInformation
 {
     public int Seat { get; private set; }
-    public Gender Gender { get; }
-    public string FirstName { get; }
-    public string LastName { get; }
+    public DateOnly DateOfBirth { get; private set; }
+    public Gender Gender { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
 
     protected Ticket(IdValueObject id, IRoute route) : base(id, route) { }
 

@@ -1,5 +1,4 @@
 ﻿using Acme.Base.Domain.Factory;
-using ErrorOr;
 using System;
 using System.Collections.Generic;
 
@@ -17,7 +16,7 @@ public class IdValueObject : BaseValueObject
         yield return Value;
     }
 
-    public static ErrorOr<TIdValueObject> Create<TIdValueObject>(IIdentityFactory<Guid> identityFactory)
+    public static TIdValueObject Create<TIdValueObject>(IIdentityFactory<Guid> identityFactory)
         where TIdValueObject : IdValueObject =>
         new IdValueObject(identityFactory.CreateIdentity()) as TIdValueObject;
 }

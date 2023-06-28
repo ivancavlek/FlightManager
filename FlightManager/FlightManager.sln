@@ -5,9 +5,9 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34682D48-A333-4489-B341-36FDC2050669}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\..\Downloads\.editorconfig = ..\..\..\..\..\Downloads\.editorconfig
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
-		..\..\..\..\..\Downloads\editorconfig.txt = ..\..\..\..\..\Downloads\editorconfig.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{D5C579BB-2EF0-4940-B5BB-EF4B015ED476}"
@@ -40,13 +40,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MilesAndMore", "MilesAndMor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Plane.Domain", "Acme.FlightManager.Plane.Domain\Acme.FlightManager.Plane.Domain.csproj", "{156E6CB5-F5F4-441E-B3E2-ADDB46052100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.MilesAndMore.Domain", "Acme.FlightManager.MilesAndMore.Domain\Acme.FlightManager.MilesAndMore.Domain.csproj", "{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.MilesAndMore.Domain", "Acme.FlightManager.MilesAndMore.Domain\Acme.FlightManager.MilesAndMore.Domain.csproj", "{A874EBAC-E337-495F-B25E-BB3BE6BD56AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{901AAF06-1610-4038-B054-3BCCB822C11D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.DestinationDirector.Domain", "Acme.FlightManager.DestinationDirector.Domain\Acme.FlightManager.DestinationDirector.Domain.csproj", "{9CDF8A8B-713C-404C-A85F-C62579B845AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Common.Domain", "Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj", "{63153FA0-6C5A-4D49-9A39-A745545201DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CAB3773D-28BC-46B1-B722-65B67FB1546B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Text", "Acme.FlightManager.Text\Acme.FlightManager.Text.csproj", "{F86A78BB-9901-42BD-B950-2794563C1874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.FlightDirector.UseCase", "Acme.FlightManager.FlightDirector.UseCase\Acme.FlightManager.FlightDirector.UseCase.csproj", "{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +100,14 @@ Global
 		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63153FA0-6C5A-4D49-9A39-A745545201DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86A78BB-9901-42BD-B950-2794563C1874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86A78BB-9901-42BD-B950-2794563C1874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86A78BB-9901-42BD-B950-2794563C1874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86A78BB-9901-42BD-B950-2794563C1874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +130,8 @@ Global
 		{901AAF06-1610-4038-B054-3BCCB822C11D} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
 		{9CDF8A8B-713C-404C-A85F-C62579B845AA} = {4FAFF665-3EF1-4ED3-BB56-F64CDB9E0F37}
 		{63153FA0-6C5A-4D49-9A39-A745545201DA} = {901AAF06-1610-4038-B054-3BCCB822C11D}
+		{F86A78BB-9901-42BD-B950-2794563C1874} = {CAB3773D-28BC-46B1-B722-65B67FB1546B}
+		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388} = {C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD9B40-0135-4A2E-9016-568BC3AFFD7D}

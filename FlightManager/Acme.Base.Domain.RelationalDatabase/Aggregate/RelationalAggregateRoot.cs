@@ -7,7 +7,7 @@ namespace Acme.Base.Domain.RelationalDatabase.Aggregate;
 
 public abstract class RelationalAggregateRoot : BaseEntity, IAggregateRoot
 {
-    [ConcurrencyCheck]
+    [ConcurrencyCheck] // ToDo: remove and generalize in EF configurations (remove nuget Annotations)
     protected Guid Version { get; private set; }
 
     protected RelationalAggregateRoot(IdValueObject id) : base(id) { }

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Acme.FlightManager.FlightDirector.Domain\Acme.FlightManager.FlightDirector.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Command\" />
+    <Folder Include="Query\" />
+  </ItemGroup>
+</Project>

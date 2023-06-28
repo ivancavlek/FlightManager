@@ -12,7 +12,7 @@ public class OnlineUser : BaseOnlineUserEntity<OnlineUserId>, IPassengerInformat
     public DateOnly DateOfBirth { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public int MilesPoints { get; private set; }
+    public int MilesAndMorePoints { get; private set; }
     public string Username { get; private set; }
 
     protected OnlineUser(IdValueObject id) : base(id) { }

@@ -2,5 +2,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Acme.Base.Domain.RelationalDatabase\Acme.Base.Domain.RelationalDatabase.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj" />
+    <ProjectReference Include="..\Acme.FlightManager.Text\Acme.FlightManager.Text.csproj" />
   </ItemGroup>
 </Project>

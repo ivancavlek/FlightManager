@@ -1,5 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Acme.Base.Domain\Acme.Base.Domain.csproj" />
+    <ProjectReference Include="..\Acme.FlightManager.Text\Acme.FlightManager.Text.csproj" />
   </ItemGroup>
 </Project>

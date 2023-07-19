@@ -1,4 +1,5 @@
 ﻿using Acme.Base.Domain.CosmosDb.Repository;
+using Acme.Base.Domain.CosmosDb.ValueObject;
 using Acme.Base.Domain.Repository;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
@@ -60,12 +61,34 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         return results;
     }
 
-    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id, string partitionKey)
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id)
     {
         try
         {
-            return await GetContainer(partitionKey)
-                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKey))
+            return await GetContainer(id.ToString())
+                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(id.ToString()))
+                .ConfigureAwait(false);
+        }
+        catch (CosmosException ex) when (ItemIsNotFound(ex))
+        {
+            return null;
+        }
+        catch (AggregateException ex) when (ItemIsNotFound(ex.InnerException))
+        {
+            return null;
+        }
+
+        static bool ItemIsNotFound(Exception ex) =>
+            ex is CosmosException &&
+            (ex as CosmosException).StatusCode == HttpStatusCode.NotFound;
+    }
+
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id, DomainPartitionKey partitionKey)
+    {
+        try
+        {
+            return await GetContainer(partitionKey.Value)
+                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKey.Value))
                 .ConfigureAwait(false);
         }
         catch (CosmosException ex) when (ItemIsNotFound(ex))

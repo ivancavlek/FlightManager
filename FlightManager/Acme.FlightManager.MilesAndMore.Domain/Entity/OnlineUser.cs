@@ -1,12 +1,12 @@
-﻿using Acme.Base.Domain.ValueObject;
-using Acme.FlightManager.Common.Domain;
+﻿using Acme.Base.Domain.Factory;
+using Acme.Base.Domain.RelationalDatabase.Aggregate;
+using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain.Entity;
-using Acme.FlightManager.Common.Domain.ValueObject;
 using System;
 
 namespace Acme.FlightManager.MilesAndMore.Domain.Entity;
 
-public class OnlineUser : BaseOnlineUserEntity<OnlineUserId>, IPassengerInformation
+public class OnlineUser : RelationalBaseEntity, IPassengerInformation
 {
     public Gender Gender { get; private set; }
     public DateOnly DateOfBirth { get; private set; }
@@ -15,5 +15,10 @@ public class OnlineUser : BaseOnlineUserEntity<OnlineUserId>, IPassengerInformat
     public int MilesAndMorePoints { get; private set; }
     public string Username { get; private set; }
 
-    protected OnlineUser(IdValueObject id) : base(id) { }
+    protected OnlineUser(IIdentityFactory<Guid> identityFactory) : base(identityFactory) { }
+
+    public static OnlineUser Create()
+    {
+        throw new NotImplementedException();
+    }
 }

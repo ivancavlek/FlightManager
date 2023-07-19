@@ -84,7 +84,7 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
 
             SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
             SetIdInInsideEntityToLowercase(jsonProperty);
-            SetETagnInsideEntityToProperCase(jsonProperty);
+            SetETagInInsideEntityToProperCase(jsonProperty);
             DoNotWriteEmptyCollections(jsonProperty);
 
             return jsonProperty;
@@ -103,11 +103,11 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
                 jsonProperty.PropertyName = nameof(BaseEntity.Id).ToLowerInvariant();
         }
 
-        private static void SetETagnInsideEntityToProperCase(JsonProperty jsonProperty)
+        private static void SetETagInInsideEntityToProperCase(JsonProperty jsonProperty)
         {
-            if (jsonProperty.DeclaringType.IsAssignableFrom(typeof(CosmosDbAggregateRoot)) &&
-                jsonProperty.PropertyName.Equals(nameof(CosmosDbAggregateRoot.ETag)))
-                jsonProperty.PropertyName = $"_{nameof(CosmosDbAggregateRoot.ETag).ToLowerInvariant()}";
+            if (jsonProperty.DeclaringType.IsAssignableFrom(typeof(CosmosDbBaseEntity)) &&
+                jsonProperty.PropertyName.Equals(nameof(CosmosDbBaseEntity.ETag)))
+                jsonProperty.PropertyName = $"_{nameof(CosmosDbBaseEntity.ETag).ToLowerInvariant()}";
         }
 
         private static void DoNotWriteEmptyCollections(JsonProperty jsonProperty)

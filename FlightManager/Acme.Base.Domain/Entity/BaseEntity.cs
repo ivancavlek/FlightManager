@@ -1,17 +1,16 @@
-﻿using Acme.Base.Domain.ValueObject;
+﻿using Acme.Base.Domain.Factory;
 using System;
 
 namespace Acme.Base.Domain.Entity;
 
 public abstract class BaseEntity
 {
-    //[JsonProperty("id")] // ToDo: For Cosmos DB, remove
     public Guid Id { get; private set; }
 
     protected BaseEntity() { }
 
-    protected BaseEntity(IdValueObject idValueObject) =>
-        Id = idValueObject.Value/*.Throw()*/;
+    protected BaseEntity(IIdentityFactory<Guid> identityFactory) =>
+        Id = identityFactory.CreateIdentity();
 
     public override bool Equals(object obj) =>
         Equals(obj as BaseEntity);

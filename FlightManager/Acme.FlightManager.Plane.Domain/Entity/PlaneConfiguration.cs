@@ -1,11 +1,11 @@
-﻿using Acme.Base.Domain.ValueObject;
+﻿using Acme.Base.Domain.Factory;
+using Acme.Base.Domain.RelationalDatabase.Aggregate;
 using Acme.FlightManager.Common.Domain.Entity;
-using Acme.FlightManager.Common.Domain.ValueObject;
 using System;
 
 namespace Acme.FlightManager.Plane.Domain.Entity;
 
-public class PlaneConfiguration : BasePlaneEntity<PlaneConfigurationId>, IPlaneConfiguration
+public class PlaneConfiguration : RelationalBaseEntity, IPlaneConfiguration
 {
     public int FuelBurnPerHours { get; private set; }
     public int FuelCapacity { get; private set; }
@@ -15,9 +15,9 @@ public class PlaneConfiguration : BasePlaneEntity<PlaneConfigurationId>, IPlaneC
     public int Seats { get; private set; }
     public int Weight { get; private set; }
 
-    protected PlaneConfiguration(IdValueObject id) : base(id) { }
+    protected PlaneConfiguration(IIdentityFactory<Guid> identityFactory) : base(identityFactory) { }
 
-    public static PlaneConfiguration Create(PlaneConfigurationId id)
+    public static PlaneConfiguration Create()
     {
         throw new NotImplementedException();
     }

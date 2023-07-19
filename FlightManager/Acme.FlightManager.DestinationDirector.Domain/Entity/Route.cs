@@ -1,10 +1,11 @@
-﻿using Acme.FlightManager.Common.Domain.Entity;
-using Acme.FlightManager.Common.Domain.ValueObject;
-using Acme.FlightManager.Plane.Domain.Entity;
+﻿using Acme.Base.Domain.Entity;
+using Acme.Base.Domain.Factory;
+using Acme.FlightManager.Common.Domain.Entity;
+using System;
 
 namespace Acme.FlightManager.DestinationDirector.Domain.ValueObject;
 
-public class Route : BaseDestinationDirectorEntity<RouteId>, IRoute
+public class Route : BaseEntity, IAggregateRoot, IRoute
 {
     // ToDo: Could we play with Graph Database?
     // ToDo: maybe with actual coordinates to calculate hours
@@ -13,7 +14,8 @@ public class Route : BaseDestinationDirectorEntity<RouteId>, IRoute
     public int FlightTimeInMinutes { get; private set; }
     public string PointOfDeparture { get; private set; }
 
-    public Route(RouteId routeId, IataCode pointOfDeparture, IataCode destination) : base(routeId)
+    public Route(IIdentityFactory<Guid> identityFactory, IataCode pointOfDeparture, IataCode destination)
+        : base(identityFactory)
     {
         PointOfDeparture = pointOfDeparture.InternationalAirportCode;
         Destination = destination.InternationalAirportCode;

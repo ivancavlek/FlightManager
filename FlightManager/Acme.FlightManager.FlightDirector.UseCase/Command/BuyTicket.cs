@@ -36,7 +36,7 @@ public sealed record BuyTicketCommand : ICommand<TicketDto>
         public BuyTicketCommandHandler(ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
             : base(repository, unitOfWork) { }
 
-        async Task<TicketDto> ICommandHandler<BuyTicketCommand, TicketDto>.Handle(
+        async Task<TicketDto> ICommandHandler<BuyTicketCommand, TicketDto>.HandleAsync(
             BuyTicketCommand command, CancellationToken cancellationToken)
         {
             var flight = await Repository.GetSingleAsync<Flight>(command.FlightId);

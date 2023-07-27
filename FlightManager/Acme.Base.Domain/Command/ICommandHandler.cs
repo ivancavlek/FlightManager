@@ -8,5 +8,5 @@ namespace Acme.Base.Domain.Command;
 /// </summary>
 public interface ICommandHandler<TCommand, TCommandResult> where TCommand : ICommand<TCommandResult>
 {
-    Task<TCommandResult> Handle(TCommand command, CancellationToken cancellationToken);
+    Task<TCommandResult> HandleAsync(TCommand command, CancellationToken cancellationToken);
 }

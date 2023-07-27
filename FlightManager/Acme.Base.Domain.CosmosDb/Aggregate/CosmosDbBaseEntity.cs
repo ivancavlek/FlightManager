@@ -13,9 +13,10 @@ public abstract class CosmosDbBaseEntity : BaseEntity
 
     protected CosmosDbBaseEntity() { }
 
-    protected CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, DomainPartitionKey partitionKey) : base(identityFactory)
+    protected CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, DomainPartitionKey partitionKey)
+        : base(identityFactory)
     {
         Discriminator = GetType().Name;
-        PartitionKey = partitionKey is null ? Id.ToString() : partitionKey.Value;
+        PartitionKey = partitionKey is null ? id.ToString() : partitionKey.Value;
     }
 }

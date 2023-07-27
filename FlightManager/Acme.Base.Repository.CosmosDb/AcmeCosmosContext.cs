@@ -20,7 +20,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
 
     public AcmeCosmosContext(CosmosClient cosmosClient, string databaseName, IEnumerable<string> containerNames)
     {
-        var database = cosmosClient/*.MustNotBeNull(nameof(cosmosClient))*/.GetDatabase(databaseName);
+        var database = cosmosClient.GetDatabase(databaseName);
         _containers = containerNames.Select(database.GetContainer).ToList();
     }
 
@@ -129,7 +129,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         _transaction ??= GetContainer(aggregateRoot.PartitionKey)
             .CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
 
-        _transaction.DeleteItem(aggregateRoot.Id.ToString());
+        _transaction.DeleteItem(aggregateRoot.Identity.Value.ToString());
         ++_transactionCount;
 
         return this;

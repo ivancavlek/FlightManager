@@ -1,3 +1,8 @@
-﻿namespace Acme.Base.Domain.Entity;
+﻿using System.Collections.ObjectModel;
 
-public interface IAggregateRoot { }
+namespace Acme.Base.Domain.Entity;
+
+public interface IAggregateRoot
+{
+    public ReadOnlyCollection<IDomainEvent> DomainEvents { get; }
+}

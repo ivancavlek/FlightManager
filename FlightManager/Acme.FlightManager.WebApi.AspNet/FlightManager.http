@@ -1,12 +1,13 @@
 @hostname=localhost
-@port=44369
+@port=7245
 @host={{hostname}}:{{port}}
+@flightdirector = flightdirector
 
 ###
-GET https://{{host}}/weatherforecast
+GET https://{{host}}/{{flightdirector}}/1/4
 
 ###
-POST https://{{host}}/weatherforecast
+POST https://{{host}}/{{flightdirector}}
 Content-Type: application/json
 Accept-Language: en-US,en;q=0.5
 

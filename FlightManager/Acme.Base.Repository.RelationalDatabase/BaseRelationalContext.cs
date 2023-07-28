@@ -18,7 +18,7 @@ public abstract class BaseContext : DbContext, IRelationalDbRepository, IRelatio
         await Set<TAggregateRoot>().Where(query).ToListAsync();
 
     async Task<TAggregateRoot> IRelationalDbRepository.GetSingleAsync<TAggregateRoot>(Guid id) =>
-        await Set<TAggregateRoot>().SingleOrDefaultAsync(art => art.Id.Equals(id.ToString())); // ToDo: solve with Backing fields, ignore Identity property
+        await Set<TAggregateRoot>().SingleOrDefaultAsync(art => EF.Property<string>(art, "id").Equals(id.ToString()));
 
     Task IUnitOfWork.CommitAsync() =>
         SaveChangesAsync();

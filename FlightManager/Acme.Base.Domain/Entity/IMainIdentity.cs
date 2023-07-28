@@ -4,5 +4,5 @@ namespace Acme.Base.Domain.Entity;
 
 public interface IMainIdentity<out TIdentity> where TIdentity : IdValueObject
 {
-    TIdentity Identity { get; }
+    TIdentity Id { get; }
 }

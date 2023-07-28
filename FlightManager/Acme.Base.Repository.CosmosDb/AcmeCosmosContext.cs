@@ -129,7 +129,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         _transaction ??= GetContainer(aggregateRoot.PartitionKey)
             .CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
 
-        _transaction.DeleteItem(aggregateRoot.Identity.Value.ToString());
+        _transaction.DeleteItem(aggregateRoot.Id.Value.ToString());
         ++_transactionCount;
 
         return this;

@@ -22,7 +22,7 @@ public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggre
     public string PointOfDeparture { get; private set; }
     public Guid RouteId { get; private set; }
     public ReadOnlyCollection<IDomainEvent> DomainEvents { get; }
-    public FlightId Identity => new(id);
+    public FlightId Id => new(id);
 
     private Flight() { }
 
@@ -65,7 +65,7 @@ public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggre
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public int Seat { get; private set; }
-        public TicketId Identity => new(id);
+        public TicketId Id => new(id);
 
         private Ticket() { }
 
@@ -80,7 +80,7 @@ public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggre
             : base(identityFactory)
         {
             DateOfBirth = dateOfBirth;
-            FlightId = flight.Identity;
+            FlightId = flight.Id;
             Gender = gender;
             FirstName = firstName;
             LastName = lastName;

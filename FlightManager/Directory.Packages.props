@@ -4,10 +4,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="FluentValidation" Version="11.5.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
     <PackageVersion Include="Microsoft.Azure.Cosmos" Version="3.35.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
+    <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="0.1.1576692" />
     <!--<PackageVersion Include="NewId" Version="4.0.1" />-->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 </Project>

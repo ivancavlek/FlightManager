@@ -54,9 +54,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Text", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.FlightDirector.UseCase", "Acme.FlightManager.FlightDirector.UseCase\Acme.FlightManager.FlightDirector.UseCase.csproj", "{2EEE98E9-8928-4EE2-99DA-3F569C5B4388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.FlightDirector.DataTransferObject", "Acme.FlightManager.FlightDirector.DataTransferObject\Acme.FlightManager.FlightDirector.DataTransferObject.csproj", "{BF55562C-D4CE-4E71-8F9D-E3E26D60AFFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.FlightDirector.DataTransferObject", "Acme.FlightManager.FlightDirector.DataTransferObject\Acme.FlightManager.FlightDirector.DataTransferObject.csproj", "{BF55562C-D4CE-4E71-8F9D-E3E26D60AFFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.Common", "Acme.FlightManager.Common\Acme.FlightManager.Common.csproj", "{B3611251-BA59-4407-B514-3F7381E3B2FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Common", "Acme.FlightManager.Common\Acme.FlightManager.Common.csproj", "{B3611251-BA59-4407-B514-3F7381E3B2FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{EEDF6539-8D0F-4A26-AE94-7A8D488744CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FlightManager.WebApi.AspNet", "Acme.FlightManager.WebApi.AspNet\Acme.FlightManager.WebApi.AspNet.csproj", "{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,10 @@ Global
 		{B3611251-BA59-4407-B514-3F7381E3B2FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3611251-BA59-4407-B514-3F7381E3B2FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3611251-BA59-4407-B514-3F7381E3B2FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +154,7 @@ Global
 		{2EEE98E9-8928-4EE2-99DA-3F569C5B4388} = {C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}
 		{BF55562C-D4CE-4E71-8F9D-E3E26D60AFFE} = {C18D60CD-1EB1-4F40-8CBD-0E3806B64E21}
 		{B3611251-BA59-4407-B514-3F7381E3B2FF} = {CAB3773D-28BC-46B1-B722-65B67FB1546B}
+		{F06756D9-3BB9-4C0F-9CAC-EA199F03C00F} = {EEDF6539-8D0F-4A26-AE94-7A8D488744CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD9B40-0135-4A2E-9016-568BC3AFFD7D}

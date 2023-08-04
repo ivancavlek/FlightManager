@@ -10,27 +10,11 @@ using System.Threading.Tasks;
 
 namespace Acme.FlightManager.FlightDirector.UseCase.Command;
 
-public sealed record BuyTicketCommand : ICommand<TicketDto>
+public sealed record BuyTicketCommand(
+    FlightIdDto FlightId, DateOnly DateOfBirth, Gender Gender, string FirstName, string LastName, int Seat)
+    : ICommand<TicketDto>
 {
-    public DateOnly DateOfBirth { get; }
-    public string FirstName { get; }
-    public Guid FlightId { get; }
-    public Gender Gender { get; }
-    public string LastName { get; }
-    public int Seat { get; }
-
-    public BuyTicketCommand(
-        DateOnly dateOfBirth, string firstName, Guid flightId, Gender gender, string lastName, int seat)
-    {
-        DateOfBirth = dateOfBirth;
-        FirstName = firstName;
-        FlightId = flightId;
-        Gender = gender;
-        LastName = lastName;
-        Seat = seat;
-    }
-
-    public sealed class BuyTicketCommandHandler :
+    internal sealed class BuyTicketCommandHandler :
         FlightDirectorCommandHandler, ICommandHandler<BuyTicketCommand, TicketDto>
     {
         public BuyTicketCommandHandler(ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
@@ -39,7 +23,7 @@ public sealed record BuyTicketCommand : ICommand<TicketDto>
         async Task<TicketDto> ICommandHandler<BuyTicketCommand, TicketDto>.HandleAsync(
             BuyTicketCommand command, CancellationToken cancellationToken)
         {
-            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId); // ToDo: Guid or StronglyTypedId(! due to DTO)
+            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId.Value); // ToDo: Guid or StronglyTypedId(! due to DTO)
 
             var ticket = flight.BuyTicketForGuest(
                 command.DateOfBirth, command.Gender, command.FirstName, command.LastName, command.Seat);

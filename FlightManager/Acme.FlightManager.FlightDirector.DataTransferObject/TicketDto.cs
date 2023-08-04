@@ -3,17 +3,10 @@ using System;
 
 namespace Acme.FlightManager.FlightDirector.DataTransferObject;
 
-public record TicketDto
-{
-    public TicketId Id { get; set; }
-    public DateOnly DateOfBirth { get; set; }
-    public Gender Gender { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Seat { get; set; }
-}
+public record TicketDto(TicketIdDto Id, DateOnly DateOfBirth, Gender Gender, string FirstName, string LastName, int Seat);
 
-public record TicketId
-{
-    public Guid Value { get; set; }
-}
+public record TicketIdDto(Guid Value);
+
+public record FlightDto(TicketIdDto Id, DateOnly DateOfBirth, Gender Gender, string FirstName, string LastName, int Seat);
+
+public record FlightIdDto(Guid Value);

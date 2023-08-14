@@ -1,5 +1,5 @@
 ﻿namespace Acme.Base.Domain.Command;
 
-public interface ICommand<TCommandResult>
+public interface ICommand<in TCommandResult>
 {
 }

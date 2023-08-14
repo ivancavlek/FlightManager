@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Acme.FlightManager.WebApi.AspNet.Extensions;
 
-public static class ValidationExtensions
+internal static class ValidationExtensions
 {
-    public static ValidationProblem ToValidationProblem(this IEnumerable<ValidationFailure> validationFailures) =>
+    internal static ValidationProblem ToValidationProblem(this IEnumerable<ValidationFailure> validationFailures) =>
         TypedResults.ValidationProblem(
             validationFailures
                 .GroupBy(x => x.PropertyName)

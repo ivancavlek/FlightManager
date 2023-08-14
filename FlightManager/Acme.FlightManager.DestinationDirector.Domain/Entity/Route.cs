@@ -1,10 +1,11 @@
 ﻿using Acme.Base.Domain.Entity;
 using Acme.Base.Domain.Factory;
 using Acme.FlightManager.Common.Domain.Entity;
+using Acme.FlightManager.DestinationDirector.Domain.ValueObject;
 using System;
 using System.Collections.ObjectModel;
 
-namespace Acme.FlightManager.DestinationDirector.Domain.ValueObject;
+namespace Acme.FlightManager.DestinationDirector.Domain.Entity;
 
 public class Route : BaseEntity, IAggregateRoot, IRoute
 {

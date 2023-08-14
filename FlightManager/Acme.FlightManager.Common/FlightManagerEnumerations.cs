@@ -28,3 +28,11 @@ public enum Gender
     Female,
     Male
 }
+
+public enum AcmeApplications
+{
+    DestinationDirector,
+    FlightDirector,
+    MilesAndMore,
+    Plane
+}

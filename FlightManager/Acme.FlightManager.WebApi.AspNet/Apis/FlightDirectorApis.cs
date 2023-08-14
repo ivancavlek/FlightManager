@@ -6,10 +6,10 @@ using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Riok.Mapperly.Abstractions;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,9 +21,9 @@ public static class FlightApis
 
     public static RouteGroupBuilder MapFlightApis(this RouteGroupBuilder group)
     {
-        group.MapGet("{start:int}/{end:int}", GetWeatherForecast)
-            .AddEndpointFilter<ValidatorFilter<Test>>()
-            .WithName(nameof(GetWeatherForecast));
+        //group.MapGet("{start:int}/{end:int}", GetWeatherForecast)
+        //    .AddEndpointFilter<ValidatorFilter<Test>>()
+        //    .WithName(nameof(GetWeatherForecast));
 
         group.MapPost("buyticket", BuyTicket)
             .AddEndpointFilter<ValidatorFilter<TicketRequest>>()
@@ -32,57 +32,56 @@ public static class FlightApis
         return group;
     }
 
-    private static Ok<WeatherForecast[]> GetWeatherForecast(
-        [AsParameters] Test test, CancellationToken cancellationToken)
-    {
-        var summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+    //private static Ok<WeatherForecast[]> GetWeatherForecast(
+    //    [AsParameters] Test test, CancellationToken cancellationToken)
+    //{
+    //    var summaries = new[]
+    //    {
+    //        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    //    };
 
-        var forecast = Enumerable.Range(test.Start, test.End).Select(index =>
-            new WeatherForecast
-            (
-                DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                Random.Shared.Next(-20, 55),
-                summaries[Random.Shared.Next(summaries.Length)]
-            ))
-            .ToArray();
+    //    var forecast = Enumerable.Range(test.Start, test.End).Select(index =>
+    //        new WeatherForecast
+    //        (
+    //            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+    //            Random.Shared.Next(-20, 55),
+    //            summaries[Random.Shared.Next(summaries.Length)]
+    //        ))
+    //        .ToArray();
 
-        return TypedResults.Ok(forecast);
-    }
+    //    return TypedResults.Ok(forecast);
+    //}
 
     private static async Task<Created<TicketDto>> BuyTicket(
-        [AsParameters] TicketRequest request,
-        MessageDispatcher messageDispatcher,
+        [FromBody] TicketRequest request,
+        ICommandDispatcher messageDispatcher,
         CancellationToken cancellationToken)
     {
         var buyTicketCommand = mapper.TicketRequestToBuyTicketCommand(request);
-        var ticket = await messageDispatcher.Dispatch(buyTicketCommand, cancellationToken);
+        var ticket = await messageDispatcher.DispatchCommand<BuyTicketCommand, TicketDto>(buyTicketCommand, cancellationToken);
         return TypedResults.Created($"ticket/{ticket.Id.Value}", ticket);
     }
 }
 
 public record TicketRequest(FlightIdDto FlightId, DateOnly DateOfBirth, Gender Gender, string FirstName, string LastName, int Seat);
 
-public record Test(int Start, int End);
-
-public class TestValidator : AbstractValidator<Test>
+public class TicketRequestValidator : AbstractValidator<TicketRequest>
 {
-    public TestValidator()
+    public TicketRequestValidator()
     {
-        RuleFor(tst => tst.Start)
-            .GreaterThan(default(int))
-            .LessThan(tst => tst.End);
-        RuleFor(tst => tst.End)
-            .GreaterThan(default(int))
-            .GreaterThan(tst => tst.Start);
+        RuleFor(tst => tst.FlightId)
+            .NotNull();
+        RuleFor(tst => tst.FlightId.Value)
+            .NotEmpty();
+        RuleFor(tst => tst.DateOfBirth)
+            .GreaterThanOrEqualTo(new DateOnly(1900, 1, 1));
+        RuleFor(tst => tst.FirstName)
+            .NotEmpty();
+        RuleFor(tst => tst.LastName)
+            .NotEmpty();
+        RuleFor(tst => tst.Seat)
+            .GreaterThan(default(int));
     }
-}
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
 
 [Mapper]

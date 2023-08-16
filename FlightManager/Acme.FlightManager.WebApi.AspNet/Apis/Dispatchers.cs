@@ -1,11 +1,35 @@
 ﻿using Acme.Base.Domain.Command;
 using Acme.Base.Domain.Query;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Acme.FlightManager.WebApi.AspNet.Apis;
+
+internal sealed class CommandValidationDispatcher : ICommandDispatcher
+{
+    private readonly ICommandDispatcher _commandDispatcher;
+    private readonly IValidator _validator;
+
+    public CommandValidationDispatcher(ICommandDispatcher commandDispatcher, IValidator validator)
+    {
+        _commandDispatcher = commandDispatcher;
+        _validator = validator;
+    }
+
+    async Task<TCommandResult> ICommandDispatcher.DispatchCommand<TCommand, TCommandResult>(
+        TCommand command, CancellationToken cancellationToken)
+    {
+        var validationResult = await _validator.ValidateAsync(new ValidationContext<TCommand>(command), cancellationToken);
+
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+
+        return await _commandDispatcher.DispatchCommand<TCommand, TCommandResult>(command, cancellationToken);
+    }
+}
 
 internal sealed class CommandDispatcher : ICommandDispatcher
 {

@@ -47,6 +47,7 @@ static WebApplicationBuilder SetWebApplicationBuilder(WebApplicationBuilder buil
     builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
     builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
     builder.Services.Scan(ApplicationAssembliesForMatchingInterfaces);
+    builder.Services.Decorate(typeof(ICommandDispatcher), typeof(CommandValidationDispatcher));
 
     return builder;
 }

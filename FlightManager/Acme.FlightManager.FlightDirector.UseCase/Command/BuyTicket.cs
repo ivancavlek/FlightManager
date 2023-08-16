@@ -4,6 +4,7 @@ using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain;
 using Acme.FlightManager.FlightDirector.DataTransferObject;
 using Acme.FlightManager.FlightDirector.Domain.Entity;
+using FluentValidation;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,5 +33,24 @@ public sealed record BuyTicketCommand(
 
             return ticket.ConvertTo<TicketDto>();
         }
+    }
+}
+
+public class BuyTicketCommandValidator : AbstractValidator<BuyTicketCommand>
+{
+    public BuyTicketCommandValidator()
+    {
+        RuleFor(tst => tst.FlightId)
+            .NotNull();
+        RuleFor(tst => tst.FlightId.Value)
+            .NotEmpty();
+        RuleFor(tst => tst.DateOfBirth)
+            .GreaterThanOrEqualTo(new DateOnly(1900, 1, 1));
+        RuleFor(tst => tst.FirstName)
+            .NotEmpty();
+        RuleFor(tst => tst.LastName)
+            .NotEmpty();
+        RuleFor(tst => tst.Seat)
+            .GreaterThan(default(int));
     }
 }

@@ -10,7 +10,12 @@ using System.Collections.ObjectModel;
 
 namespace Acme.FlightManager.FlightDirector.Domain.Entity;
 
-public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggregateRoot, IPlaneConfiguration, IRoute
+public sealed class Flight :
+    CosmosDbBaseEntity,
+    IMainIdentity<Flight.FlightId>,
+    IAggregateRoot,
+    IPlaneConfiguration,
+    IRoute
 {
     private readonly List<Ticket> _tickets;
 
@@ -52,7 +57,9 @@ public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggre
             seat.Equals(default) ? seat : 1;
     }
 
-    public static Flight Create(Guid planeConfigurationId, IPlaneConfiguration planeConfiguration, Guid route)
+    public static Flight Create(
+        IPlaneConfiguration planeConfiguration,
+        Guid route)
     {
         return new(new GuidIdentityFactory());
     }
@@ -91,11 +98,11 @@ public sealed class Flight : CosmosDbBaseEntity, IMainIdentity<FlightId>, IAggre
             Flight flight, DateOnly dateOfBirth, Gender gender, string firstName, string lastName, int seat) =>
             new(new GuidIdentityFactory(), flight, dateOfBirth, gender, firstName, lastName, seat);
     }
-}
 
-public class FlightId : IdValueObject
-{
-    public FlightId(Guid id) : base(id) { }
+    public class FlightId : IdValueObject
+    {
+        internal protected FlightId(Guid id) : base(id) { }
+    }
 }
 
 public class TicketId : IdValueObject

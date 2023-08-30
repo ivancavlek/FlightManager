@@ -61,6 +61,42 @@ namespace Acme.FlightManager.Text {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Airbus A320.
+        /// </summary>
+        public static string A320 {
+            get {
+                return ResourceManager.GetString("A320", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Airbus A320neo.
+        /// </summary>
+        public static string A320neo {
+            get {
+                return ResourceManager.GetString("A320neo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Airbus A380.
+        /// </summary>
+        public static string A380 {
+            get {
+                return ResourceManager.GetString("A380", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Boeing 747-8.
+        /// </summary>
+        public static string Boeing7478 {
+            get {
+                return ResourceManager.GetString("Boeing7478", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is not valid..
         /// </summary>
         public static string Invalid {

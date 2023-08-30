@@ -1,6 +1,8 @@
 using Acme.Base.Domain.CosmosDb.Repository;
+using Acme.Base.Domain.Service;
 using Acme.Base.Repository.CosmosDb;
 using Acme.FlightManager.Common;
+using Acme.FlightManager.Common.Domain.Service;
 using Acme.FlightManager.WebApi.AspNet.Apis;
 using Acme.FlightManager.WebApi.AspNet.Middleware;
 using Asp.Versioning;
@@ -46,6 +48,8 @@ static WebApplicationBuilder SetWebApplicationBuilder(WebApplicationBuilder buil
     builder.Services.AddScoped<ICosmosDbDeleteUnitOfWork, AcmeCosmosContext>(AddAcmeContext);
     builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
     builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+    builder.Services.AddSingleton<CurrentTimeService>();
+    builder.Services.AddScoped(SetFreezeTime);
     builder.Services.Scan(ApplicationAssembliesForMatchingInterfaces);
     builder.Services.Decorate(typeof(ICommandDispatcher), typeof(CommandValidationDispatcher));
 
@@ -122,6 +126,9 @@ static CosmosClient AddCosmosClient(IServiceProvider serviceProvider) =>
         .WithConnectionModeDirect()
         .WithCustomSerializer(new CosmosNewtonsoftJsonSerializer())
         .Build();
+
+static ITimeService SetFreezeTime(IServiceProvider serviceProvider) =>
+    new CurrentTimeFreezeService(serviceProvider.GetRequiredService<CurrentTimeService>());
 
 static void ApplicationAssembliesForMatchingInterfaces(ITypeSourceSelector selector)
 {

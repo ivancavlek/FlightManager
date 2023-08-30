@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Acme.FlightManager.Text;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,16 +24,46 @@ public static class EnumerationService
         (TEnum)Enum.Parse(typeof(TEnum), valueToParse);
 }
 
-public enum Gender
-{
-    Female,
-    Male
-}
-
 public enum AcmeApplications
 {
     DestinationDirector,
     FlightDirector,
     MilesAndMore,
     Plane
+}
+
+public enum AirplaneManufacturer
+{
+    Airbus,
+    Boeing
+}
+
+public enum AirplaneTypeAbbreviation
+{
+    [Display(Description = "A320", ResourceType = typeof(FlightManagerMessage))]
+    A320,
+    [Display(Description = "A320neo", ResourceType = typeof(FlightManagerMessage))]
+    A320neo,
+    [Display(Description = "A380", ResourceType = typeof(FlightManagerMessage))]
+    A380,
+    [Display(Description = "Boeing7478", ResourceType = typeof(FlightManagerMessage))]
+    Boeing7478
+}
+
+public enum Country
+{
+    Germany
+}
+
+public enum Gender
+{
+    Female,
+    Male
+}
+
+public enum PlaneConfigurationType
+{
+    Business,
+    Compact,
+    Premium
 }

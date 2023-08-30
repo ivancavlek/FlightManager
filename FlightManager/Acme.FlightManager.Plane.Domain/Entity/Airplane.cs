@@ -31,7 +31,7 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
             Active = AcmePeriod.CreateFromNow(timeService);
             MaximumRangeInKilometers = _maximumRangeInKilometers = 6_100;
             MaximumSeats = _maximumSeats = 186;
-            Type = AirplaneType.Create("A320", AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A320);
+            Type = AirplaneType.Create(AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A320);
         }
     }
 
@@ -42,7 +42,7 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
             Active = AcmePeriod.CreateFromNow(timeService);
             MaximumRangeInKilometers = _maximumRangeInKilometers = 6_500;
             MaximumSeats = _maximumSeats = 195;
-            Type = AirplaneType.Create("A320neo", AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A320neo);
+            Type = AirplaneType.Create(AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A320neo);
         }
     }
 
@@ -53,7 +53,7 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
             Active = AcmePeriod.CreateFromNow(timeService);
             MaximumRangeInKilometers = _maximumRangeInKilometers = 14_800;
             MaximumSeats = _maximumSeats = 853;
-            Type = AirplaneType.Create("A380", AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A380);
+            Type = AirplaneType.Create(AirplaneManufacturer.Airbus, AirplaneTypeAbbreviation.A380);
         }
     }
 
@@ -64,7 +64,7 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
             Active = AcmePeriod.CreateFromNow(timeService);
             MaximumRangeInKilometers = _maximumRangeInKilometers = 14_320;
             MaximumSeats = _maximumSeats = 467;
-            Type = AirplaneType.Create("747-8", AirplaneManufacturer.Boeing, AirplaneTypeAbbreviation.Boeing7478);
+            Type = AirplaneType.Create(AirplaneManufacturer.Boeing, AirplaneTypeAbbreviation.Boeing7478);
         }
     }
 
@@ -79,29 +79,36 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
         string aircraftRegistration,
         ITimeService timeService)
     {
-        Airplane airplane = type switch
-        {
-            AirplaneTypeAbbreviation.A320 => new A320Airplane(timeService),
-            AirplaneTypeAbbreviation.A320neo => new A320neoAirplane(timeService),
-            AirplaneTypeAbbreviation.A380 => new A380Airplane(timeService),
-            AirplaneTypeAbbreviation.Boeing7478 => new Boeing7478Airplane(timeService),
-            _ => throw new NotImplementedException(),
-        };
-        airplane.SetAirplaneConfiguration(configuration);
-        airplane.SetAirplaneRegistration(country, aircraftRegistration);
+        return GetAirplaneType()
+            .SetConfiguration(configuration)
+            .SetRegistration(country, aircraftRegistration);
 
-        return airplane;
+        Airplane GetAirplaneType() =>
+            type switch
+            {
+                AirplaneTypeAbbreviation.A320 => new A320Airplane(timeService),
+                AirplaneTypeAbbreviation.A320neo => new A320neoAirplane(timeService),
+                AirplaneTypeAbbreviation.A380 => new A380Airplane(timeService),
+                AirplaneTypeAbbreviation.Boeing7478 => new Boeing7478Airplane(timeService),
+                _ => throw new NotImplementedException(),
+            };
     }
 
-    public void SetAirplaneConfiguration(PlaneConfigurationType configuration)
+    public Airplane SetConfiguration(PlaneConfigurationType configuration)
     {
         Configuration = AirplaneConfiguration.Create(configuration);
         MaximumRangeInKilometers = (int)(Configuration.PercentageInKilometers * _maximumRangeInKilometers);
         MaximumSeats = (int)(Configuration.PercentageSeats * _maximumSeats);
+
+        return this;
     }
 
-    public void SetAirplaneRegistration(Country country, string airplaneRegistration) =>
+    public Airplane SetRegistration(Country country, string airplaneRegistration)
+    {
         Registration = AirplaneRegistration.Create(country, airplaneRegistration);
+
+        return this;
+    }
 
     public static List<string> GetAirplaneTypesInTheFleet() =>
         new List<AirplaneTypeAbbreviation>()
@@ -111,7 +118,7 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
             AirplaneTypeAbbreviation.A380,
             AirplaneTypeAbbreviation.Boeing7478
         }
-        .Select(ape => ape.GetDescription())
+        .Select(ata => ata.GetDescription())
         .ToList();
 }
 

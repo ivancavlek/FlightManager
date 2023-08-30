@@ -31,7 +31,7 @@ public abstract class AirplaneConfiguration : BaseValueObject
 
     private class BusinessAirplaneConfiguration : AirplaneConfiguration
     {
-        public BusinessAirplaneConfiguration()
+        internal BusinessAirplaneConfiguration()
         {
             PercentageSeats = 0.8D;
             PercentageInKilometers = 0.75D;
@@ -41,7 +41,7 @@ public abstract class AirplaneConfiguration : BaseValueObject
 
     private class CompactAirplaneConfiguration : AirplaneConfiguration
     {
-        public CompactAirplaneConfiguration()
+        internal CompactAirplaneConfiguration()
         {
             PercentageSeats = 1D;
             PercentageInKilometers = 0.6D;
@@ -51,7 +51,7 @@ public abstract class AirplaneConfiguration : BaseValueObject
 
     private class PremiumAirplaneConfiguration : AirplaneConfiguration
     {
-        public PremiumAirplaneConfiguration()
+        internal PremiumAirplaneConfiguration()
         {
             PercentageSeats = 0.6D;
             PercentageInKilometers = 0.9D;

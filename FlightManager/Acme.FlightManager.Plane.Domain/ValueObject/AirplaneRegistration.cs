@@ -26,16 +26,38 @@ public abstract class AirplaneRegistration : BaseValueObject
         yield return Registration;
     }
 
-    private static ValidationFailure InvalidAirplaneRegistration(string aircraftRegistration) =>
-        new("airplaneRegistration", "Invalid", aircraftRegistration.Length);
-
     private class GermanAircraftRegistration : AirplaneRegistration
     {
-        public GermanAircraftRegistration(string airplaneRegistration) : base(airplaneRegistration)
+        private List<ValidationFailure> _validationErrors;
+
+        internal GermanAircraftRegistration(string airplaneRegistration) : base(airplaneRegistration) =>
+            ValidateGermanRegistrationLength()
+            .ValidateGermanRegistrationStartSequence()
+            .CheckForErrorsInValidations();
+
+        private GermanAircraftRegistration ValidateGermanRegistrationLength()
         {
-            if (airplaneRegistration.Length != 6 || !airplaneRegistration.StartsWith("D-A"))
-                throw new ValidationException(
-                    new List<ValidationFailure> { InvalidAirplaneRegistration(airplaneRegistration) });
+            if (Registration.Length != 6)
+                AddValidationError("length");
+
+            return this;
+        }
+
+        private GermanAircraftRegistration ValidateGermanRegistrationStartSequence()
+        {
+            if (!Registration.StartsWith("D-A"))
+                AddValidationError("registration start");
+
+            return this;
+        }
+
+        private void AddValidationError(string invalidProperty) =>
+            (_validationErrors ??= new()).Add(new("airplaneRegistration", $"Invalid {invalidProperty}", Registration));
+
+        private void CheckForErrorsInValidations()
+        {
+            if (_validationErrors.Count > 0)
+                throw new ValidationException(_validationErrors);
         }
     }
 }

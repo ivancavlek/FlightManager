@@ -20,7 +20,7 @@ public sealed class IataCode : BaseValueObject
     public static IataCode Create(string internationalAirportCode)
     {
         return IsValid() ?
-            new IataCode(internationalAirportCode.ToUpperInvariant()) :
+            new(internationalAirportCode.ToUpperInvariant()) :
             throw new ValidationException(GeneralFlightManagerMessage.Invalid(internationalAirportCode));
 
         bool IsValid() =>

@@ -1,5 +1,6 @@
 ﻿using Acme.Base.Domain.ValueObject;
 using Acme.FlightManager.Common;
+using Acme.FlightManager.Text;
 using System.Collections.Generic;
 
 namespace Acme.FlightManager.Plane.Domain.ValueObject;
@@ -16,7 +17,7 @@ public class AirplaneType : BaseValueObject
         new(manufacturer, type);
 
     public override string ToString() =>
-        Type.GetDescription();
+        Type.AirplaneTypeAbbreviationText();
 
     protected override IEnumerable<object> PropertiesForEqualizing()
     {

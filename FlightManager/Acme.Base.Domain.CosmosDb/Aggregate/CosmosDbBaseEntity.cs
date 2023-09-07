@@ -1,4 +1,4 @@
-﻿using Acme.Base.Domain.CosmosDb.ValueObject;
+﻿using Acme.Base.Domain.CosmosDb.Factory;
 using Acme.Base.Domain.Entity;
 using Acme.Base.Domain.Factory;
 using System;
@@ -13,10 +13,10 @@ public abstract class CosmosDbBaseEntity : BaseEntity
 
     protected CosmosDbBaseEntity() { }
 
-    protected CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, DomainPartitionKey partitionKey)
+    protected CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, IPartitionKeyFactory partitionKeyFactory)
         : base(identityFactory)
     {
         Discriminator = GetType().Name;
-        PartitionKey = partitionKey is null ? id.ToString() : partitionKey.Value;
+        PartitionKey = partitionKeyFactory is null ? id.ToString() : partitionKeyFactory.CreatePartitionKey();
     }
 }

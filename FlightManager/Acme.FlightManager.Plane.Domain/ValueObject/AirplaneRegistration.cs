@@ -30,25 +30,16 @@ public abstract class AirplaneRegistration : BaseValueObject
     {
         private List<ValidationFailure> _validationErrors;
 
-        internal GermanAircraftRegistration(string airplaneRegistration) : base(airplaneRegistration) =>
-            ValidateGermanRegistrationLength()
-            .ValidateGermanRegistrationStartSequence()
-            .CheckForErrorsInValidations();
-
-        private GermanAircraftRegistration ValidateGermanRegistrationLength()
+        internal GermanAircraftRegistration(string airplaneRegistration) : base(airplaneRegistration)
         {
+            if (Registration is null)
+                AddValidationError("value");
             if (Registration.Length != 6)
                 AddValidationError("length");
-
-            return this;
-        }
-
-        private GermanAircraftRegistration ValidateGermanRegistrationStartSequence()
-        {
             if (!Registration.StartsWith("D-A"))
                 AddValidationError("registration start");
 
-            return this;
+            CheckForErrorsInValidations();
         }
 
         private void AddValidationError(string invalidProperty) =>
@@ -56,7 +47,7 @@ public abstract class AirplaneRegistration : BaseValueObject
 
         private void CheckForErrorsInValidations()
         {
-            if (_validationErrors.Count > 0)
+            if (_validationErrors?.Count > 0)
                 throw new ValidationException(_validationErrors);
         }
     }

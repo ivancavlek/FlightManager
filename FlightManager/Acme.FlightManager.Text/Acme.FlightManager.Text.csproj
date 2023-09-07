@@ -1,5 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <ProjectReference Include="..\Acme.FlightManager.Common\Acme.FlightManager.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Update="FlightManagerMessage.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

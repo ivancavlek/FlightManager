@@ -1,17 +1,18 @@
-﻿using Acme.Base.Domain.Entity;
+﻿using Acme.Base.Domain.CosmosDb.Aggregate;
+using Acme.Base.Domain.Entity;
 using Acme.Base.Domain.Factory;
-using Acme.Base.Domain.RelationalDatabase.Aggregate;
 using Acme.Base.Domain.Service;
 using Acme.Base.Domain.ValueObject;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Plane.Domain.ValueObject;
+using Acme.FlightManager.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Acme.FlightManager.Plane.Domain.Entity;
 
-public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggregateRoot
+public class Airplane : CosmosDbBaseEntity/*RelationalBaseEntity*/, IMainIdentity<AirplaneId>, IAggregateRoot
 {
     private int _maximumRangeInKilometers;
     private int _maximumSeats;
@@ -70,7 +71,8 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
 
     private Airplane() { }
 
-    private Airplane(IIdentityFactory<Guid> identityFactory) : base(identityFactory) { }
+    private Airplane(IIdentityFactory<Guid> identityFactory)
+        : base(identityFactory, new AirplanePartitionKeyFactory()) { }
 
     public static Airplane AddAirplaneToTheFleet(
         AirplaneTypeAbbreviation type,
@@ -111,15 +113,9 @@ public class Airplane : RelationalBaseEntity, IMainIdentity<AirplaneId>, IAggreg
     }
 
     public static List<string> GetAirplaneTypesInTheFleet() =>
-        new List<AirplaneTypeAbbreviation>()
-        {
-            AirplaneTypeAbbreviation.A320,
-            AirplaneTypeAbbreviation.A320neo,
-            AirplaneTypeAbbreviation.A380,
-            AirplaneTypeAbbreviation.Boeing7478
-        }
-        .Select(ata => ata.GetDescription())
-        .ToList();
+        EnumerationService.GetEnumValues<AirplaneTypeAbbreviation>()
+            .Select(ata => ata.AirplaneTypeAbbreviationText())
+            .ToList();
 }
 
 public class AirplaneId : IdValueObject

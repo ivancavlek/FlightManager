@@ -37,7 +37,7 @@ public enum AirplaneTypeAbbreviation
 
 public enum Country
 {
-    Germany
+    DE
 }
 
 public enum Gender

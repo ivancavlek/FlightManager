@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Acme.FlightManager.FlightDirector.UseCase\Acme.FlightManager.FlightDirector.UseCase.csproj" />
+    <ProjectReference Include="..\Acme.FlightManager.Plane.UseCase\Acme.FlightManager.Plane.UseCase.csproj" />
   </ItemGroup>
 
 </Project>

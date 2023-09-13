@@ -1,5 +1,4 @@
 ﻿using Acme.Base.Domain.CosmosDb.Aggregate;
-using Acme.Base.Domain.CosmosDb.ValueObject;
 using Acme.Base.Domain.Entity;
 using Acme.Base.Domain.ValueObject;
 using System;
@@ -16,6 +15,6 @@ public interface ICosmosDbRepository
         where TAggregateRoot : CosmosDbBaseEntity, IAggregateRoot, IMainIdentity<IdValueObject>;
     Task<TAggregateRoot> GetSingleAsync<TAggregateRoot>(Guid id)
         where TAggregateRoot : CosmosDbBaseEntity, IAggregateRoot, IMainIdentity<IdValueObject>;
-    Task<TAggregateRoot> GetSingleAsync<TAggregateRoot>(Guid id, DomainPartitionKey partitionKey)
+    Task<TAggregateRoot> GetSingleAsync<TAggregateRoot>(Guid id, string partitionKey)
         where TAggregateRoot : CosmosDbBaseEntity, IAggregateRoot, IMainIdentity<IdValueObject>;
 }

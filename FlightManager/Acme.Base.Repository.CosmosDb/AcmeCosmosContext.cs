@@ -1,5 +1,4 @@
 ﻿using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.CosmosDb.ValueObject;
 using Acme.Base.Domain.Repository;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
@@ -61,7 +60,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         return results;
     }
 
-    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id)
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id) // ToDo: I vote for simple type, because this library can be then reused, otherwise it's bound to specific projects
     {
         try
         {
@@ -83,12 +82,12 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
             (ex as CosmosException).StatusCode == HttpStatusCode.NotFound;
     }
 
-    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id, DomainPartitionKey partitionKey)
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id, string partitionKey)
     {
         try
         {
-            return await GetContainer(partitionKey.Value)
-                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKey.Value))
+            return await GetContainer(partitionKey)
+                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKey))
                 .ConfigureAwait(false);
         }
         catch (CosmosException ex) when (ItemIsNotFound(ex))

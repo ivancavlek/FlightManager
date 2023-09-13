@@ -10,6 +10,8 @@ public class AirplaneType : BaseValueObject
     public AirplaneManufacturer Manufacturer { get; private set; }
     public AirplaneTypeAbbreviation Type { get; private set; }
 
+    private AirplaneType() { }
+
     private AirplaneType(AirplaneManufacturer manufacturer, AirplaneTypeAbbreviation type) =>
         (Manufacturer, Type) = (manufacturer, type);
 

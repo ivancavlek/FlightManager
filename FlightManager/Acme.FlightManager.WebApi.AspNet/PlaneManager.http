@@ -1,0 +1,15 @@
+@hostname=localhost
+@port=7245
+@host={{hostname}}:{{port}}
+@plane = plane
+
+###
+POST https://{{host}}/{{plane}}/addtothefleet
+Content-Type: application/json
+
+{
+    "type": 2,
+    "configuration": 1,
+    "country": 0,
+    "aircraftRegistration": "D-A123"
+}

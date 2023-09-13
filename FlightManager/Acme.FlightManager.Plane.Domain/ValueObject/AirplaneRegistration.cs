@@ -7,17 +7,23 @@ using System.Collections.Generic;
 
 namespace Acme.FlightManager.Plane.Domain.ValueObject;
 
-public abstract class AirplaneRegistration : BaseValueObject
+public class AirplaneRegistration : BaseValueObject
 {
+    public Country Country { get; private set; }
     public string Registration { get; private set; }
 
-    private AirplaneRegistration(string aircraftRegistration) =>
+    private AirplaneRegistration() { }
+
+    private AirplaneRegistration(Country country, string aircraftRegistration)
+    {
+        Country = country;
         Registration = aircraftRegistration;
+    }
 
     public static AirplaneRegistration Create(Country country, string aircraftRegistration) =>
         country switch
         {
-            Country.Germany => new GermanAircraftRegistration(aircraftRegistration),
+            Country.DE => new GermanAircraftRegistration(country, aircraftRegistration),
             _ => throw new NotImplementedException(country.ToString())
         };
 
@@ -30,7 +36,8 @@ public abstract class AirplaneRegistration : BaseValueObject
     {
         private List<ValidationFailure> _validationErrors;
 
-        internal GermanAircraftRegistration(string airplaneRegistration) : base(airplaneRegistration)
+        internal GermanAircraftRegistration(Country country, string airplaneRegistration)
+            : base(country, airplaneRegistration)
         {
             if (Registration is null)
                 AddValidationError("value");

@@ -17,7 +17,7 @@ namespace Acme.FlightManager.WebApi.AspNet.Apis;
 
 public static class FlightApis
 {
-    static readonly RequestMapper mapper = new();
+    static readonly FlightRequestMapper mapper = new();
 
     public static RouteGroupBuilder MapFlightApis(this RouteGroupBuilder group)
     {
@@ -71,7 +71,7 @@ public class TicketRequestValidator : AbstractValidator<TicketRequest>
 }
 
 [Mapper]
-public partial class RequestMapper
+public partial class FlightRequestMapper
 {
     public partial BuyTicketCommand TicketRequestToBuyTicketCommand(TicketRequest ticketRequest);
 }

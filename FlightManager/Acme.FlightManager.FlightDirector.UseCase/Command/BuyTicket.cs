@@ -24,12 +24,12 @@ public sealed record BuyTicketCommand(
         async Task<TicketDto> ICommandHandler<BuyTicketCommand, TicketDto>.HandleAsync(
             BuyTicketCommand command, CancellationToken cancellationToken)
         {
-            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId.Value); // ToDo: Guid or StronglyTypedId(! due to DTO)
+            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId.Value);
 
             var ticket = flight.BuyTicketForGuest(
                 command.DateOfBirth, command.Gender, command.FirstName, command.LastName, command.Seat);
 
-            await UnitOfWork.Upsert(flight).CommitAsync().ConfigureAwait(false);
+            //await UnitOfWork.Upsert(flight).CommitAsync().ConfigureAwait(false);
 
             return ticket.ConvertTo<TicketDto>();
         }

@@ -10,9 +10,6 @@ public abstract class IdValueObject : BaseValueObject
     protected IdValueObject(Guid id) =>
         Value = id;
 
-    //public static IdValueObject Create(IIdentityFactory<Guid> identityFactory) =>
-    //    new(identityFactory.CreateIdentity());
-
     protected override IEnumerable<object> PropertiesForEqualizing()
     {
         yield return Value;

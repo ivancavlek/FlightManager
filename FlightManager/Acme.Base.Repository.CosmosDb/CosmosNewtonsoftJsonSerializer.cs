@@ -5,9 +5,11 @@ using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -78,12 +80,35 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
         //public InsideContractResolver() =>
         //    NamingStrategy = new CamelCaseNamingStrategy();
 
+        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        {
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(f => f?.PropertyType.BaseType != typeof(IdValueObject))
+                        .Select(p => base.CreateProperty(p, memberSerialization))
+                    .Union(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                               .Where(f => f.Name is "id")
+                               .Select(f => base.CreateProperty(f, memberSerialization)))
+                    .ToList();
+            //props.ForEach(p => { p.Writable = true; p.Readable = true; }); // ne ide uopće u Create Property, zato se sve poremeti
+            foreach (var prop in props)
+            {
+                SetPrivateSetPropertiesAsWritable(prop);
+                SetIdFieldAsId(prop);
+                IgnoreStronglyTypedIds(prop);
+                //SetIdInInsideEntityToLowercase(jsonProperty);
+                SetETagInInsideEntityToProperCase(prop);
+                DoNotWriteEmptyCollections(prop);
+            }
+
+            return props;
+        }
+
         protected override JsonProperty CreateProperty(
             MemberInfo memberInfo, MemberSerialization memberSerialization)
         {
             var jsonProperty = base.CreateProperty(memberInfo, memberSerialization);
 
-            SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
+            //SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
             SetIdFieldAsId(jsonProperty);
             IgnoreStronglyTypedIds(jsonProperty);
             //SetIdInInsideEntityToLowercase(jsonProperty);
@@ -93,10 +118,11 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
             return jsonProperty;
         }
 
-        private static void SetPrivateSetPropertiesAsWritable(JsonProperty jsonProperty, MemberInfo memberInfo)
+        private static void SetPrivateSetPropertiesAsWritable(JsonProperty jsonProperty/*, MemberInfo memberInfo*/)
         {
-            if (!jsonProperty.Writable && memberInfo is PropertyInfo propertyInfo)
-                jsonProperty.Writable = propertyInfo.GetSetMethod(true) is not null;
+            //if (!jsonProperty.Writable && memberInfo is PropertyInfo propertyInfo)
+            //    jsonProperty.Writable = propertyInfo.GetSetMethod(true) is not null;
+            jsonProperty.Readable = jsonProperty.Writable = true;
         }
 
         private static void SetIdFieldAsId(JsonProperty jsonProperty)
@@ -107,7 +133,7 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
 
         private static void IgnoreStronglyTypedIds(JsonProperty jsonProperty)
         {
-            if (jsonProperty.PropertyName is nameof(IMainIdentity<IdValueObject>.Id)) // ToDo: pitanje je hoće li ovo raditi
+            if (jsonProperty.PropertyName is nameof(IMainIdentity<IdValueObject>.Id))
                 jsonProperty.Ignored = true;
         }
 

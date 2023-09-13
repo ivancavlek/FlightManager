@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
@@ -27,11 +28,13 @@ using System.Linq;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = SetWebApplicationBuilder(builder).Build();
+var app = SetWebApplicationBuilder().Build();
 SetWebApplication(app).Run();
 
-static WebApplicationBuilder SetWebApplicationBuilder(WebApplicationBuilder builder)
+WebApplicationBuilder SetWebApplicationBuilder()
 {
+    var config = builder.Configuration;
+
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(SwaggerConfiguration);
 
@@ -73,6 +76,13 @@ static WebApplication SetWebApplication(WebApplication app)
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.MapGroup("plane")
+        .MapPlaneApis()
+        .WithApiVersionSet(versionSet)
+        .MapToApiVersion(1.0)
+        .WithOpenApi()
+        .AllowAnonymous();
 
     app.MapGroup("flight")
         .MapFlightApis()
@@ -121,8 +131,8 @@ static void VersioningConfiguration(ApiVersioningOptions avo)
     avo.AssumeDefaultVersionWhenUnspecified = true;
 }
 
-static CosmosClient AddCosmosClient(IServiceProvider serviceProvider) =>
-    new CosmosClientBuilder(/*Environment.GetEnvironmentVariable("AzureCosmosDbConnectionString")*/"AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==;")
+CosmosClient AddCosmosClient(IServiceProvider serviceProvider) =>
+    new CosmosClientBuilder(builder.Configuration.GetValue<string>("AzureCosmosDbConnectionString"))
         .WithConnectionModeDirect()
         .WithCustomSerializer(new CosmosNewtonsoftJsonSerializer())
         .Build();
@@ -160,10 +170,12 @@ static void ApplicationAssembliesForMatchingInterfaces(ITypeSourceSelector selec
             .Where(tpe => tpe.Namespace.StartsWith(companyName) &&
                 tpe.GetInterfaces().Any() &&
                 !tpe.Name.EndsWith("Command") &&
-                !tpe.Namespace.EndsWith("Entity") &&
-                !tpe.Namespace.EndsWith("ValueObject") &&
+                !tpe.Namespace.Contains("Common") &&
                 !tpe.Namespace.EndsWith("DataTransferObject") &&
-                !tpe.Namespace.EndsWith("Repository.CosmosDb"));
+                !tpe.Namespace.EndsWith("Entity") &&
+                !tpe.Namespace.EndsWith("Factory") &&
+                !tpe.Namespace.EndsWith("Repository.CosmosDb") &&
+                !tpe.Namespace.EndsWith("ValueObject"));
 }
 
 static AcmeCosmosContext AddAcmeContext(IServiceProvider serviceProvider) =>

@@ -14,16 +14,16 @@ public class AirplaneRegistration : BaseValueObject
 
     private AirplaneRegistration() { }
 
-    private AirplaneRegistration(Country country, string aircraftRegistration)
+    private AirplaneRegistration(Country country, string airplaneRegistration)
     {
         Country = country;
-        Registration = aircraftRegistration;
+        Registration = airplaneRegistration;
     }
 
-    public static AirplaneRegistration Create(Country country, string aircraftRegistration) =>
+    public static AirplaneRegistration Create(Country country, string airplaneRegistration) =>
         country switch
         {
-            Country.DE => new GermanAircraftRegistration(country, aircraftRegistration),
+            Country.DE => new GermanAirplaneRegistration(country, airplaneRegistration),
             _ => throw new NotImplementedException(country.ToString())
         };
 
@@ -32,11 +32,11 @@ public class AirplaneRegistration : BaseValueObject
         yield return Registration;
     }
 
-    private class GermanAircraftRegistration : AirplaneRegistration
+    private class GermanAirplaneRegistration : AirplaneRegistration
     {
         private List<ValidationFailure> _validationErrors;
 
-        internal GermanAircraftRegistration(Country country, string airplaneRegistration)
+        internal GermanAirplaneRegistration(Country country, string airplaneRegistration)
             : base(country, airplaneRegistration)
         {
             if (Registration is null)

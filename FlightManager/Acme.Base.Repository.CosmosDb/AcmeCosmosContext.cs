@@ -1,4 +1,5 @@
-﻿using Acme.Base.Domain.CosmosDb.Repository;
+﻿using Acme.Base.Domain.CosmosDb.Factory;
+using Acme.Base.Domain.CosmosDb.Repository;
 using Acme.Base.Domain.Repository;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
@@ -13,14 +14,14 @@ namespace Acme.Base.Repository.CosmosDb;
 
 public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDeleteUnitOfWork, ICosmosDbRepository
 {
-    private readonly IReadOnlyCollection<Container> _containers;
+    private readonly Container _container;
     private TransactionalBatch _transaction;
     private int _transactionCount;
 
-    public AcmeCosmosContext(CosmosClient cosmosClient, string databaseName, IEnumerable<string> containerNames)
+    public AcmeCosmosContext(CosmosClient cosmosClient, string databaseName, string containerName)
     {
         var database = cosmosClient.GetDatabase(databaseName);
-        _containers = containerNames.Select(database.GetContainer).ToList();
+        _container = database.GetContainer(containerName);
     }
 
     async Task IUnitOfWork.CommitAsync()
@@ -38,11 +39,15 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
     }
 
     async Task<IReadOnlyCollection<TAggregateRoot>> ICosmosDbRepository.GetAllAsync<TAggregateRoot>(
-        Expression<Func<TAggregateRoot, bool>> query, string partitionKey)
+        Expression<Func<TAggregateRoot, bool>> query, IPartitionKeyFactory partitionKeyFactory)
     {
-        var iterator = GetContainer(partitionKey)
+        var iterator = _container
             .GetItemLinqQueryable<TAggregateRoot>(
-                requestOptions: new QueryRequestOptions { PartitionKey = new PartitionKey(partitionKey), PopulateIndexMetrics = true }) // ToDo: remove PopulateIndexMetrics in prod, watch RU costs
+                requestOptions: new QueryRequestOptions
+                {
+                    PartitionKey = new PartitionKey(partitionKeyFactory.CreatePartitionKey()),
+                    PopulateIndexMetrics = true
+                }) // ToDo: remove PopulateIndexMetrics in prod, watch RU costs
             .Where(query)
             .ToFeedIterator();
 
@@ -64,7 +69,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
     {
         try
         {
-            return await GetContainer(id.ToString())
+            return await _container
                 .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(id.ToString()))
                 .ConfigureAwait(false);
         }
@@ -82,12 +87,13 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
             (ex as CosmosException).StatusCode == HttpStatusCode.NotFound;
     }
 
-    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id, string partitionKey)
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(
+        Guid id, IPartitionKeyFactory partitionKeyFactory)
     {
         try
         {
-            return await GetContainer(partitionKey)
-                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKey))
+            return await _container
+                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKeyFactory.CreatePartitionKey()))
                 .ConfigureAwait(false);
         }
         catch (CosmosException ex) when (ItemIsNotFound(ex))
@@ -109,8 +115,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         if (aggregateRoot is null)
             return this;
 
-        _transaction ??= GetContainer(aggregateRoot.PartitionKey)
-            .CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
+        _transaction ??= _container.CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
 
         var options = new TransactionalBatchItemRequestOptions { IfMatchEtag = aggregateRoot.ETag };
 
@@ -125,15 +130,11 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         if (aggregateRoot is null)
             return this;
 
-        _transaction ??= GetContainer(aggregateRoot.PartitionKey)
-            .CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
+        _transaction ??= _container.CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
 
         _transaction.DeleteItem(aggregateRoot.Id.Value.ToString());
         ++_transactionCount;
 
         return this;
     }
-
-    private Container GetContainer(string partitionKey) =>
-        _containers.Single(ctr => partitionKey.Contains(ctr.Id));
 }

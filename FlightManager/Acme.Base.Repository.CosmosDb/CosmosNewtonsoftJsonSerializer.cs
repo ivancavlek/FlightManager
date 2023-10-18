@@ -5,7 +5,6 @@ using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -29,12 +28,12 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
             ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             ContractResolver = new InsideContractResolver(),
             Converters = new List<JsonConverter>
+            {
+                new StringEnumConverter()
                 {
-                    new StringEnumConverter
-                    {
-                        AllowIntegerValues = true
-                    }
-                },
+                    AllowIntegerValues = true
+                }
+            },
             NullValueHandling = NullValueHandling.Ignore
         };
         _jsonSerializer = JsonSerializer.Create(_jsonSerializerSettings);
@@ -80,25 +79,15 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
         //public InsideContractResolver() =>
         //    NamingStrategy = new CamelCaseNamingStrategy();
 
-        protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
+        protected override IList<JsonProperty> CreateProperties(System.Type type, MemberSerialization memberSerialization)
         {
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(f => f?.PropertyType.BaseType != typeof(IdValueObject))
-                        .Select(p => base.CreateProperty(p, memberSerialization))
-                    .Union(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                               .Where(f => f.Name is "id")
-                               .Select(f => base.CreateProperty(f, memberSerialization)))
-                    .ToList();
-            //props.ForEach(p => { p.Writable = true; p.Readable = true; }); // ne ide uopće u Create Property, zato se sve poremeti
-            foreach (var prop in props)
-            {
-                SetPrivateSetPropertiesAsWritable(prop);
-                SetIdFieldAsId(prop);
-                IgnoreStronglyTypedIds(prop);
-                //SetIdInInsideEntityToLowercase(jsonProperty);
-                SetETagInInsideEntityToProperCase(prop);
-                DoNotWriteEmptyCollections(prop);
-            }
+            var props = base.GetSerializableMembers(type)
+                .Select(pio => CreateProperty(pio, memberSerialization))
+                .Union(type
+                    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(fio => fio.Name is "id")
+                    .Select(fio => CreateProperty(fio, memberSerialization)))
+                .ToList();
 
             return props;
         }
@@ -108,7 +97,7 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
         {
             var jsonProperty = base.CreateProperty(memberInfo, memberSerialization);
 
-            //SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
+            SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
             SetIdFieldAsId(jsonProperty);
             IgnoreStronglyTypedIds(jsonProperty);
             //SetIdInInsideEntityToLowercase(jsonProperty);
@@ -118,11 +107,10 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
             return jsonProperty;
         }
 
-        private static void SetPrivateSetPropertiesAsWritable(JsonProperty jsonProperty/*, MemberInfo memberInfo*/)
+        private static void SetPrivateSetPropertiesAsWritable(JsonProperty jsonProperty, MemberInfo memberInfo)
         {
-            //if (!jsonProperty.Writable && memberInfo is PropertyInfo propertyInfo)
-            //    jsonProperty.Writable = propertyInfo.GetSetMethod(true) is not null;
-            jsonProperty.Readable = jsonProperty.Writable = true;
+            if (!jsonProperty.Writable && memberInfo is PropertyInfo propertyInfo)
+                jsonProperty.Writable = propertyInfo.GetSetMethod(true) is not null;
         }
 
         private static void SetIdFieldAsId(JsonProperty jsonProperty)

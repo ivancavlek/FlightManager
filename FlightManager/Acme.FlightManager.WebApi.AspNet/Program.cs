@@ -54,7 +54,7 @@ WebApplicationBuilder SetWebApplicationBuilder()
     builder.Services.AddSingleton<CurrentTimeService>();
     builder.Services.AddScoped(SetFreezeTime);
     builder.Services.Scan(ApplicationAssembliesForMatchingInterfaces);
-    builder.Services.Decorate(typeof(ICommandDispatcher), typeof(CommandValidationDispatcher));
+    //builder.Services.Decorate(typeof(ICommandDispatcher), typeof(CommandValidationDispatcher));
 
     return builder;
 }
@@ -77,8 +77,8 @@ static WebApplication SetWebApplication(WebApplication app)
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.MapGroup("plane")
-        .MapPlaneApis()
+    app.MapGroup("fleet")
+        .MapFleetApis()
         .WithApiVersionSet(versionSet)
         .MapToApiVersion(1.0)
         .WithOpenApi()
@@ -170,6 +170,7 @@ static void ApplicationAssembliesForMatchingInterfaces(ITypeSourceSelector selec
             .Where(tpe => tpe.Namespace.StartsWith(companyName) &&
                 tpe.GetInterfaces().Any() &&
                 !tpe.Name.EndsWith("Command") &&
+                !tpe.Name.EndsWith("Query") &&
                 !tpe.Namespace.Contains("Common") &&
                 !tpe.Namespace.EndsWith("DataTransferObject") &&
                 !tpe.Namespace.EndsWith("Entity") &&
@@ -181,7 +182,7 @@ static void ApplicationAssembliesForMatchingInterfaces(ITypeSourceSelector selec
 static AcmeCosmosContext AddAcmeContext(IServiceProvider serviceProvider) =>
     new(serviceProvider.GetRequiredService<CosmosClient>(),
         nameof(AcmeApplications),
-        EnumerationService.GetEnumValues<AcmeApplications>().Select(enm => enm.ToString()).ToList());
+        nameof(AcmeApplications.Plane));
 
 static ApiVersionSet GetApiVersionSet(WebApplication webApplication) =>
     webApplication

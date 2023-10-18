@@ -13,7 +13,7 @@ public abstract class CosmosDbBaseEntity : BaseEntity
 
     protected CosmosDbBaseEntity() { }
 
-    protected CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, IPartitionKeyFactory partitionKeyFactory)
+    public CosmosDbBaseEntity(IIdentityFactory<Guid> identityFactory, IPartitionKeyFactory partitionKeyFactory)
         : base(identityFactory)
     {
         Discriminator = GetType().Name;

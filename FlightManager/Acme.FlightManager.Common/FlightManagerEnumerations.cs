@@ -27,6 +27,13 @@ public enum AirplaneManufacturer
     Boeing
 }
 
+public enum AirplaneStatus
+{
+    Active,
+    Maintenance,
+    Inactive
+}
+
 public enum AirplaneTypeAbbreviation
 {
     A320,

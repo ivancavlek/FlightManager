@@ -1,15 +1,35 @@
 @hostname=localhost
 @port=7245
 @host={{hostname}}:{{port}}
-@plane = plane
+@fleet = fleet
+@airplane = airplane
 
 ###
-POST https://{{host}}/{{plane}}/addtothefleet
+POST https://{{host}}/{{fleet}}/{{airplane}}
 Content-Type: application/json
 
 {
     "type": 2,
     "configuration": 1,
     "country": 0,
-    "aircraftRegistration": "D-A123"
+    "airplaneRegistration": "D-A123"
 }
+
+###
+GET https://{{host}}/{{fleet}}/{{airplane}}?airplaneid=8a00a47b-de1a-07e9-85b6-3a0e55521804&airplaneregistration=D-A123
+
+###
+GET https://{{host}}/{{fleet}}
+
+###
+PUT https://{{host}}/{{fleet}}/{{airplane}}
+Content-Type: application/json
+
+{
+    "airplaneid": "8a00a47b-de1a-07e9-85b6-3a0e55521804",
+    "configuration": 2,
+    "airplaneRegistration": "D-A123"
+}
+
+###
+DELETE https://{{host}}/{{fleet}}/{{airplane}}?airplaneid=8a00a47b-de1a-07e9-85b6-3a0e55521804&airplaneregistration=D-A123

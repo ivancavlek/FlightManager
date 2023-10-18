@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Acme.FlightManager.Common\Acme.FlightManager.Common.csproj" />
+  </ItemGroup>
+</Project>

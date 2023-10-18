@@ -7,6 +7,8 @@ public abstract class IdValueObject : BaseValueObject
 {
     public Guid Value { get; private set; }
 
+    protected IdValueObject() { }
+
     protected IdValueObject(Guid id) =>
         Value = id;
 

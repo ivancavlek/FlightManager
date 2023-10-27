@@ -13,6 +13,7 @@
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <!--<PackageVersion Include="NewId" Version="4.0.1" />-->
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageVersion Include="RabbitMQ.Client" Version="6.6.0" />
     <PackageVersion Include="Riok.Mapperly" Version="3.0.0" />
     <PackageVersion Include="Scrutor" Version="4.2.2" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />

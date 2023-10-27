@@ -1,10 +1,13 @@
-﻿using Acme.Base.Domain.Command;
+﻿using Acme.Base.Domain;
+using Acme.Base.Domain.Command;
 using Acme.Base.Domain.CosmosDb.Repository;
+using Acme.Base.Domain.Entity;
+using Acme.Base.Domain.Messaging;
 using Acme.Base.Domain.Service;
 using Acme.FlightManager.Common;
-using Acme.FlightManager.Common.Domain;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.FlightManager.Plane.Domain.ValueObject;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,8 +24,11 @@ public sealed record AddAirplaneToTheFleetCommand(
         private readonly ITimeService _timeService;
 
         public AddAirplaneToTheFleetCommandHandler(
-            ITimeService timeService, ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
-            : base(repository, unitOfWork) =>
+            ITimeService timeService,
+            IMessagePublisher messagePublisher,
+            ICosmosDbRepository repository,
+            ICosmosDbUpsertUnitOfWork unitOfWork)
+            : base(messagePublisher, repository, unitOfWork) =>
             _timeService = timeService ?? throw new ArgumentNullException(nameof(timeService));
 
         async Task<AirplaneDto> ICommandHandler<AddAirplaneToTheFleetCommand, AirplaneDto>.HandleAsync(
@@ -33,9 +39,19 @@ public sealed record AddAirplaneToTheFleetCommand(
 
             await _unitOfWork.Upsert(newAirplaneInTheFleet).CommitAsync().ConfigureAwait(false);
 
-            // send an integration event to the destination director that a new airplane is available
+            _messagePublisher.PublishMessage(new AddedAirplaneToTheFleetEvent(
+                newAirplaneInTheFleet.Id,
+                newAirplaneInTheFleet.Configuration,
+                newAirplaneInTheFleet.Registration,
+                newAirplaneInTheFleet.Type));
 
             return newAirplaneInTheFleet.ConvertTo<AirplaneDto>();
         }
+
+        private record AddedAirplaneToTheFleetEvent(
+            AirplaneId AirplaneId,
+            AirplaneConfiguration AirplaneConfiguration,
+            AirplaneRegistration AirplaneRegistration,
+            AirplaneType AirplaneType) : IIntegrationEvent;
     }
 }

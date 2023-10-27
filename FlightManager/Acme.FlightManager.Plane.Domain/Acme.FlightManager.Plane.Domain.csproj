@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Acme.Base.Domain.CosmosDb\Acme.Base.Domain.CosmosDb.csproj" />
-    <ProjectReference Include="..\Acme.Base.Domain.RelationalDatabase\Acme.Base.Domain.RelationalDatabase.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj" />
   </ItemGroup>
 </Project>

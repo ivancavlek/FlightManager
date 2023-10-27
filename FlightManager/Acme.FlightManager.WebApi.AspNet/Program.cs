@@ -1,5 +1,7 @@
 using Acme.Base.Domain.CosmosDb.Repository;
+using Acme.Base.Domain.Messaging;
 using Acme.Base.Domain.Service;
+using Acme.Base.Messaging.RabbitMq;
 using Acme.Base.Repository.CosmosDb;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain.Service;
@@ -20,6 +22,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using RabbitMQ.Client;
 using Scrutor;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -51,6 +54,8 @@ WebApplicationBuilder SetWebApplicationBuilder()
     builder.Services.AddScoped<ICosmosDbDeleteUnitOfWork, AcmeCosmosContext>(AddAcmeContext);
     builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
     builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+    builder.Services.AddSingleton<IMessageConsumer>(AddRabbitMqConsumer);
+    builder.Services.AddSingleton<IMessagePublisher>(AddRabbitMqPublisher);
     builder.Services.AddSingleton<CurrentTimeService>();
     builder.Services.AddScoped(SetFreezeTime);
     builder.Services.Scan(ApplicationAssembliesForMatchingInterfaces);
@@ -132,10 +137,33 @@ static void VersioningConfiguration(ApiVersioningOptions avo)
 }
 
 CosmosClient AddCosmosClient(IServiceProvider serviceProvider) =>
-    new CosmosClientBuilder(builder.Configuration.GetValue<string>("AzureCosmosDbConnectionString"))
+    new CosmosClientBuilder(builder.Configuration.GetValue<string>("Azure:CosmosDb:ConnectionString"))
         .WithConnectionModeDirect()
         .WithCustomSerializer(new CosmosNewtonsoftJsonSerializer())
         .Build();
+
+AcmeRabbitMqConsumer AddRabbitMqConsumer(IServiceProvider serviceProvider) =>
+    new(GetRabbitMqConnectionFactory("consumer"), GetRabbitMqConfiguration());
+
+AcmeRabbitMqPublisher AddRabbitMqPublisher(IServiceProvider serviceProvider) =>
+    new(GetRabbitMqConnectionFactory("publisher"), GetRabbitMqConfiguration());
+
+RabbitMqConfiguration GetRabbitMqConfiguration() =>
+    new(builder.Configuration.GetValue<string>("RabbitMq:ExchangeName"),
+        builder.Configuration.GetValue<string>("RabbitMq:QueueName"),
+        builder.Configuration.GetValue<string>("RabbitMq:RoutingKey"),
+        builder.Configuration.GetValue<string>("RabbitMq:Type"));
+
+ConnectionFactory GetRabbitMqConnectionFactory(string connectionName) =>
+    new()
+    {
+        AutomaticRecoveryEnabled = true,
+        ClientProvidedName = connectionName,
+        HostName = builder.Configuration.GetValue<string>("RabbitMq:HostName"),
+        Password = builder.Configuration.GetValue<string>("RabbitMq:Password"),
+        RequestedHeartbeat = TimeSpan.FromSeconds(10),
+        UserName = builder.Configuration.GetValue<string>("RabbitMq:UserName")
+    };
 
 static ITimeService SetFreezeTime(IServiceProvider serviceProvider) =>
     new CurrentTimeFreezeService(serviceProvider.GetRequiredService<CurrentTimeService>());

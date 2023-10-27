@@ -1,6 +1,8 @@
-﻿using Acme.Base.Domain.Command;
+﻿using Acme.Base.Domain;
+using Acme.Base.Domain.Command;
 using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.FlightManager.Common.Domain;
+using Acme.Base.Domain.Entity;
+using Acme.Base.Domain.Messaging;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
 using System;
@@ -15,8 +17,9 @@ public sealed record SoldAirplaneCommand(Guid AirplaneId, string AirplaneRegistr
     internal sealed class SoldAirplaneCommandHandler :
         PlaneCommandHandler, ICommandHandler<SoldAirplaneCommand, AirplaneDto>
     {
-        public SoldAirplaneCommandHandler(ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
-            : base(repository, unitOfWork) { }
+        public SoldAirplaneCommandHandler(
+            IMessagePublisher messagePublisher, ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
+            : base(messagePublisher, repository, unitOfWork) { }
 
         async Task<AirplaneDto> ICommandHandler<SoldAirplaneCommand, AirplaneDto>.HandleAsync(
             SoldAirplaneCommand command, CancellationToken cancellationToken)
@@ -29,9 +32,11 @@ public sealed record SoldAirplaneCommand(Guid AirplaneId, string AirplaneRegistr
 
             await _unitOfWork.Upsert(airplane).CommitAsync().ConfigureAwait(false);
 
-            // send an integration event to the destination director that an airplane is no longer available
+            _messagePublisher.PublishMessage(new RemovedAirplaneFromTheFleetEvent(airplane.Id));
 
             return airplane.ConvertTo<AirplaneDto>();
         }
+
+        private record RemovedAirplaneFromTheFleetEvent(AirplaneId AirplaneId) : IIntegrationEvent;
     }
 }

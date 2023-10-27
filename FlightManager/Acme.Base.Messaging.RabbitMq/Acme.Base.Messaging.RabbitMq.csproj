@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="RabbitMQ.Client" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Acme.Base.Domain.Messaging\Acme.Base.Domain.Messaging.csproj" />
+  </ItemGroup>
+</Project>

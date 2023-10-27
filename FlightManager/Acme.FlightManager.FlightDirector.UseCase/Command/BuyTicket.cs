@@ -1,7 +1,7 @@
-﻿using Acme.Base.Domain.Command;
+﻿using Acme.Base.Domain;
+using Acme.Base.Domain.Command;
 using Acme.Base.Domain.CosmosDb.Repository;
 using Acme.FlightManager.Common;
-using Acme.FlightManager.Common.Domain;
 using Acme.FlightManager.FlightDirector.DataTransferObject;
 using Acme.FlightManager.FlightDirector.Domain.Entity;
 using FluentValidation;

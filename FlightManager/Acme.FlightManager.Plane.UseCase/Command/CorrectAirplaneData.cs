@@ -1,9 +1,12 @@
-﻿using Acme.Base.Domain.Command;
+﻿using Acme.Base.Domain;
+using Acme.Base.Domain.Command;
 using Acme.Base.Domain.CosmosDb.Repository;
+using Acme.Base.Domain.Entity;
+using Acme.Base.Domain.Messaging;
 using Acme.FlightManager.Common;
-using Acme.FlightManager.Common.Domain;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.FlightManager.Plane.Domain.ValueObject;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,8 +19,9 @@ public sealed record CorrectAirplaneDataCommand(Guid AirplaneId, PlaneConfigurat
     internal sealed class CorrectAirplaneDataCommandHandler :
         PlaneCommandHandler, ICommandHandler<CorrectAirplaneDataCommand, AirplaneDto>
     {
-        public CorrectAirplaneDataCommandHandler(ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
-            : base(repository, unitOfWork) { }
+        public CorrectAirplaneDataCommandHandler(
+            IMessagePublisher messagePublisher, ICosmosDbRepository repository, ICosmosDbUpsertUnitOfWork unitOfWork)
+            : base(messagePublisher, repository, unitOfWork) { }
 
         async Task<AirplaneDto> ICommandHandler<CorrectAirplaneDataCommand, AirplaneDto>.HandleAsync(
             CorrectAirplaneDataCommand command, CancellationToken cancellationToken)
@@ -30,9 +34,13 @@ public sealed record CorrectAirplaneDataCommand(Guid AirplaneId, PlaneConfigurat
 
             await _unitOfWork.Upsert(airplane).CommitAsync().ConfigureAwait(false);
 
-            // send an integration event to the destination director that a new airplane is available
+            _messagePublisher.PublishMessage(
+                new CorrectedAirplaneDataEvent(airplane.Id, airplane.Configuration));
 
             return airplane.ConvertTo<AirplaneDto>();
         }
+
+        private record CorrectedAirplaneDataEvent(
+            AirplaneId AirplaneId, AirplaneConfiguration AirplaneConfiguration) : IIntegrationEvent;
     }
 }

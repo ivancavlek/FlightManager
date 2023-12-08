@@ -1,4 +1,4 @@
-﻿using Acme.Base.Domain.Service;
+﻿using Acme.SharedKernel.Domain.Service;
 using System;
 
 namespace Acme.FlightManager.Common.Domain.Service;

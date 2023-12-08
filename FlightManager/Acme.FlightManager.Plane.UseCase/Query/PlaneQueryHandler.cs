@@ -1,5 +1,5 @@
-﻿using Acme.Base.Domain.CosmosDb.Factory;
-using Acme.Base.Domain.CosmosDb.Repository;
+﻿using Acme.SharedKernel.Domain.CosmosDb.Factory;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.FlightManager.Plane.Domain.Factory;
 using System;
 

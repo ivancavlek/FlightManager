@@ -1,8 +1,8 @@
-﻿using Acme.Base.Domain;
-using Acme.Base.Domain.Command;
-using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.Entity;
-using Acme.Base.Domain.Messaging;
+﻿using Acme.SharedKernel.Domain;
+using Acme.SharedKernel.Domain.Command;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
+using Acme.SharedKernel.Domain.Entity;
+using Acme.SharedKernel.Domain.Messaging;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
 using System;
@@ -33,6 +33,8 @@ public sealed record SoldAirplaneCommand(Guid AirplaneId, string AirplaneRegistr
             await _unitOfWork.Upsert(airplane).CommitAsync().ConfigureAwait(false);
 
             _messagePublisher.PublishMessage(new RemovedAirplaneFromTheFleetEvent(airplane.Id));
+
+            // send Email - Saga?
 
             return airplane.ConvertTo<AirplaneDto>();
         }

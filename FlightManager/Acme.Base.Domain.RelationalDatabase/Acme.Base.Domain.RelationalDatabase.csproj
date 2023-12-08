@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Acme.Base.Domain\Acme.Base.Domain.csproj" />
-  </ItemGroup>
-</Project>

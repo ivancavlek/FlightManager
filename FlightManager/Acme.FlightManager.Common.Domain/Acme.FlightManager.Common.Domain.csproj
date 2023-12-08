@@ -4,7 +4,7 @@
     <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Acme.Base.Domain\Acme.Base.Domain.csproj" />
+    <ProjectReference Include="..\Acme.SharedKernel.Domain\Acme.SharedKernel.Domain.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Common\Acme.FlightManager.Common.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Text\Acme.FlightManager.Text.csproj" />
   </ItemGroup>

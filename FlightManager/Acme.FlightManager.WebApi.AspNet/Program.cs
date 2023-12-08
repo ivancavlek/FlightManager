@@ -1,11 +1,12 @@
-using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.Messaging;
-using Acme.Base.Domain.Service;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
+using Acme.SharedKernel.Domain.Messaging;
+using Acme.SharedKernel.Domain.Service;
 using Acme.Base.Messaging.RabbitMq;
 using Acme.Base.Repository.CosmosDb;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain.Service;
 using Acme.FlightManager.WebApi.AspNet.Apis;
+using Acme.FlightManager.WebApi.AspNet.BackgroundServices;
 using Acme.FlightManager.WebApi.AspNet.Middleware;
 using Asp.Versioning;
 using Asp.Versioning.Builder;
@@ -54,7 +55,7 @@ WebApplicationBuilder SetWebApplicationBuilder()
     builder.Services.AddScoped<ICosmosDbDeleteUnitOfWork, AcmeCosmosContext>(AddAcmeContext);
     builder.Services.AddScoped<ICommandDispatcher, CommandDispatcher>();
     builder.Services.AddScoped<IQueryDispatcher, QueryDispatcher>();
-    builder.Services.AddSingleton<IMessageConsumer>(AddRabbitMqConsumer);
+    builder.Services.AddHostedService<AcmeRabbitMqBackgroundServiceConsumer>(AddRabbitMqConsumer);
     builder.Services.AddSingleton<IMessagePublisher>(AddRabbitMqPublisher);
     builder.Services.AddSingleton<CurrentTimeService>();
     builder.Services.AddScoped(SetFreezeTime);
@@ -142,11 +143,11 @@ CosmosClient AddCosmosClient(IServiceProvider serviceProvider) =>
         .WithCustomSerializer(new CosmosNewtonsoftJsonSerializer())
         .Build();
 
-AcmeRabbitMqConsumer AddRabbitMqConsumer(IServiceProvider serviceProvider) =>
-    new(GetRabbitMqConnectionFactory("consumer"), GetRabbitMqConfiguration());
+AcmeRabbitMqBackgroundServiceConsumer AddRabbitMqConsumer(IServiceProvider serviceProvider) =>
+    new(new AcmeRabbitMqConfiguration(GetRabbitMqConnectionFactory("consumer"), GetRabbitMqConfiguration()));
 
 AcmeRabbitMqPublisher AddRabbitMqPublisher(IServiceProvider serviceProvider) =>
-    new(GetRabbitMqConnectionFactory("publisher"), GetRabbitMqConfiguration());
+    new(new AcmeRabbitMqConfiguration(GetRabbitMqConnectionFactory("publisher"), GetRabbitMqConfiguration()));
 
 RabbitMqConfiguration GetRabbitMqConfiguration() =>
     new(builder.Configuration.GetValue<string>("RabbitMq:ExchangeName"),

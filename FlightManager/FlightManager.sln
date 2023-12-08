@@ -10,21 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{D5C579BB-2EF0-4940-B5BB-EF4B015ED476}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Kernel", "Shared Kernel", "{931A235E-E22D-478C-AF89-D308CB53BC34}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{931A235E-E22D-478C-AF89-D308CB53BC34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.SharedKernel.Domain", "Acme.SharedKernel.Domain\Acme.SharedKernel.Domain.csproj", "{BF9D1C92-706C-4326-A1A2-7ED3E944AB08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Domain", "Acme.Base.Domain\Acme.Base.Domain.csproj", "{BF9D1C92-706C-4326-A1A2-7ED3E944AB08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.SharedKernel.Domain.CosmosDb", "Acme.SharedKernel.Domain.CosmosDb\Acme.SharedKernel.Domain.CosmosDb.csproj", "{79A6DB33-255B-43FA-8E97-33423BDF700A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Domain.CosmosDb", "Acme.Base.Domain.CosmosDb\Acme.Base.Domain.CosmosDb.csproj", "{79A6DB33-255B-43FA-8E97-33423BDF700A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Domain.RelationalDatabase", "Acme.Base.Domain.RelationalDatabase\Acme.Base.Domain.RelationalDatabase.csproj", "{24E610FF-C94B-4369-BB96-5D4B3DFDB31C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.SharedKernel.Domain.RelationalDatabase", "Acme.SharedKernel.Domain.RelationalDatabase\Acme.SharedKernel.Domain.RelationalDatabase.csproj", "{24E610FF-C94B-4369-BB96-5D4B3DFDB31C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Repository.CosmosDb", "Acme.Base.Repository.CosmosDb\Acme.Base.Repository.CosmosDb.csproj", "{7B00E666-B143-426B-89D9-1CBD0B9E5903}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Infrastructure.Repository.CosmosDb", "Acme.Infrastructure.Repository.CosmosDb\Acme.Infrastructure.Repository.CosmosDb.csproj", "{7B00E666-B143-426B-89D9-1CBD0B9E5903}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Base.Repository.RelationalDatabase", "Acme.Base.Repository.RelationalDatabase\Acme.Base.Repository.RelationalDatabase.csproj", "{7FAA18CD-DB47-46C8-A00A-9F396F209407}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Infrastructure.Repository.RelationalDatabase", "Acme.Infrastructure.Repository.RelationalDatabase\Acme.Infrastructure.Repository.RelationalDatabase.csproj", "{7FAA18CD-DB47-46C8-A00A-9F396F209407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bounded Context", "Bounded Context", "{1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}"
 EndProject
@@ -66,9 +64,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Plane.Us
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Plane.DataTransferObject", "Acme.FlightManager.Plane.DataTransferObject\Acme.FlightManager.Plane.DataTransferObject.csproj", "{1BF4572E-661C-4675-831F-4464B27FC4B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Base.Messaging.RabbitMq", "Acme.Base.Messaging.RabbitMq\Acme.Base.Messaging.RabbitMq.csproj", "{904F0921-22DD-4C87-A363-6B092BC5CCB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.Infrastructure.Messaging.RabbitMq", "Acme.Infrastructure.Messaging.RabbitMq\Acme.Infrastructure.Messaging.RabbitMq.csproj", "{904F0921-22DD-4C87-A363-6B092BC5CCB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.Base.Domain.Messaging", "Acme.Base.Domain.Messaging\Acme.Base.Domain.Messaging.csproj", "{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.SharedKernel.Domain.Messaging", "Acme.SharedKernel.Domain.Messaging\Acme.SharedKernel.Domain.Messaging.csproj", "{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E54284FB-622C-42B2-9641-45C47393DA87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Acme.FlightManager.Plane.Domain.Test.Unit", "Acme.FlightManager.Plane.Domain.Test.Unit\Acme.FlightManager.Plane.Domain.Test.Unit.csproj", "{EE6AFCB5-7A17-42D1-A765-3799CF36B913}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,17 +154,18 @@ Global
 		{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE6AFCB5-7A17-42D1-A765-3799CF36B913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE6AFCB5-7A17-42D1-A765-3799CF36B913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE6AFCB5-7A17-42D1-A765-3799CF36B913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE6AFCB5-7A17-42D1-A765-3799CF36B913}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D5C579BB-2EF0-4940-B5BB-EF4B015ED476} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
-		{931A235E-E22D-478C-AF89-D308CB53BC34} = {D5C579BB-2EF0-4940-B5BB-EF4B015ED476}
 		{BF9D1C92-706C-4326-A1A2-7ED3E944AB08} = {931A235E-E22D-478C-AF89-D308CB53BC34}
 		{79A6DB33-255B-43FA-8E97-33423BDF700A} = {931A235E-E22D-478C-AF89-D308CB53BC34}
 		{24E610FF-C94B-4369-BB96-5D4B3DFDB31C} = {931A235E-E22D-478C-AF89-D308CB53BC34}
-		{07E80FD6-1606-4257-8CE8-A8FC99D0EF3C} = {D5C579BB-2EF0-4940-B5BB-EF4B015ED476}
 		{7B00E666-B143-426B-89D9-1CBD0B9E5903} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
 		{7FAA18CD-DB47-46C8-A00A-9F396F209407} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
 		{C18D60CD-1EB1-4F40-8CBD-0E3806B64E21} = {1FA4CBE7-D882-4666-8A04-B8F22D31C8EF}
@@ -184,6 +187,7 @@ Global
 		{1BF4572E-661C-4675-831F-4464B27FC4B6} = {58CF4AC4-1D9E-4A38-A15F-E07417F0DC18}
 		{904F0921-22DD-4C87-A363-6B092BC5CCB5} = {07E80FD6-1606-4257-8CE8-A8FC99D0EF3C}
 		{0B92861C-ADC5-4FE1-9E68-0D231BF6E2B1} = {931A235E-E22D-478C-AF89-D308CB53BC34}
+		{EE6AFCB5-7A17-42D1-A765-3799CF36B913} = {E54284FB-622C-42B2-9641-45C47393DA87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62CD9B40-0135-4A2E-9016-568BC3AFFD7D}

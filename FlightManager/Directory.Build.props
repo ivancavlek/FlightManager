@@ -1,18 +1,26 @@
 ﻿<Project>
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName.Contains(`Test`))'">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <!--<ImplicitUsings>enable</ImplicitUsings>-->
+    <!--<IsTestProject>true</IsTestProject>-->
+  </ItemGroup>
   <ItemGroup Condition="'$(MSBuildProjectName.Contains(`Test`))' And '$(OutputType)' == 'Exe'">
-    <PackageReference Include="Fixie"
-                      Version="*" />
-    <PackageReference Include="FluentAssertions"
-                      Version="*" />
+    <!--<PackageReference Include="Fixie" />-->
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" />
     <Using Include="FluentAssertions" />
+    <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup Condition="'$(MSBuildProjectName.Contains(`Test`))' And '!$(MSBuildProjectName.Contains(`Text`))'">
-    <PackageReference Include="NSubstitute"
-                      Version="*" />
+    <PackageReference Include="NSubstitute" />
     <Using Include="NSubstitute" />
   </ItemGroup>
 </Project>

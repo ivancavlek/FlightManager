@@ -1,9 +1,9 @@
-﻿using Acme.Base.Domain;
-using Acme.Base.Domain.Command;
-using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.Entity;
-using Acme.Base.Domain.Messaging;
-using Acme.Base.Domain.Service;
+﻿using Acme.SharedKernel.Domain;
+using Acme.SharedKernel.Domain.Command;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
+using Acme.SharedKernel.Domain.Entity;
+using Acme.SharedKernel.Domain.Messaging;
+using Acme.SharedKernel.Domain.Service;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
@@ -44,6 +44,8 @@ public sealed record AddAirplaneToTheFleetCommand(
                 newAirplaneInTheFleet.Configuration,
                 newAirplaneInTheFleet.Registration,
                 newAirplaneInTheFleet.Type));
+
+            // send Email - Saga?
 
             return newAirplaneInTheFleet.ConvertTo<AirplaneDto>();
         }

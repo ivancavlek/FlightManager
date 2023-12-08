@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\Acme.FlightManager.Common.Domain\Acme.FlightManager.Common.Domain.csproj" />
-    <ProjectReference Include="..\Acme.Base.Repository.CosmosDb\Acme.Base.Repository.CosmosDb.csproj" />
-    <ProjectReference Include="..\Acme.Base.Repository.RelationalDatabase\Acme.Base.Repository.RelationalDatabase.csproj" />
+    <ProjectReference Include="..\Acme.Infrastructure.Repository.CosmosDb\Acme.Infrastructure.Repository.CosmosDb.csproj" />
+    <ProjectReference Include="..\Acme.Infrastructure.Repository.RelationalDatabase\Acme.Infrastructure.Repository.RelationalDatabase.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.DestinationDirector.Domain\Acme.FlightManager.DestinationDirector.Domain.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Plane.Domain\Acme.FlightManager.Plane.Domain.csproj" />
   </ItemGroup>

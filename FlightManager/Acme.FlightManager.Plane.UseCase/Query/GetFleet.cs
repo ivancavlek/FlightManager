@@ -1,6 +1,6 @@
-﻿using Acme.Base.Domain;
-using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.Query;
+﻿using Acme.SharedKernel.Domain;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
+using Acme.SharedKernel.Domain.Query;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;

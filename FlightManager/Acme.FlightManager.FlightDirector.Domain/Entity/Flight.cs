@@ -1,7 +1,7 @@
-﻿using Acme.Base.Domain.CosmosDb.Aggregate;
-using Acme.Base.Domain.Entity;
-using Acme.Base.Domain.Factory;
-using Acme.Base.Domain.ValueObject;
+﻿using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
+using Acme.SharedKernel.Domain.Entity;
+using Acme.SharedKernel.Domain.Factory;
+using Acme.SharedKernel.Domain.ValueObject;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain.Entity;
 using System;

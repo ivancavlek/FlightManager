@@ -1,5 +1,5 @@
-﻿using Acme.Base.Domain.Factory;
-using Acme.Base.Domain.RelationalDatabase.Aggregate;
+﻿using Acme.SharedKernel.Domain.Factory;
+using Acme.SharedKernel.Domain.RelationalDatabase.Aggregate;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Common.Domain.Entity;
 using System;

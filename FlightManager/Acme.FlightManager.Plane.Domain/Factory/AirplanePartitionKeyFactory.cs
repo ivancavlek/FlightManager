@@ -1,4 +1,4 @@
-﻿using Acme.Base.Domain.CosmosDb.Factory;
+﻿using Acme.SharedKernel.Domain.CosmosDb.Factory;
 using Acme.FlightManager.Common;
 
 namespace Acme.FlightManager.Plane.Domain.Factory;

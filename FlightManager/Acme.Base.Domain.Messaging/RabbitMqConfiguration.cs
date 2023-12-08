@@ -1,3 +1,0 @@
-﻿namespace Acme.Base.Domain.Messaging;
-
-public record RabbitMqConfiguration(string ExchangeName, string QueueName, string RoutingKey, string Type);

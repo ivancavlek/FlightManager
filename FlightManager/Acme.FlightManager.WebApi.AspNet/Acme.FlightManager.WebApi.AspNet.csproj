@@ -18,8 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Acme.Base.Domain.Messaging\Acme.Base.Domain.Messaging.csproj" />
-    <ProjectReference Include="..\Acme.Base.Messaging.RabbitMq\Acme.Base.Messaging.RabbitMq.csproj" />
+    <ProjectReference Include="..\Acme.SharedKernel.Domain.Messaging\Acme.SharedKernel.Domain.Messaging.csproj" />
+    <ProjectReference Include="..\Acme.Infrastructure.Messaging.RabbitMq\Acme.Infrastructure.Messaging.RabbitMq.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.FlightDirector.UseCase\Acme.FlightManager.FlightDirector.UseCase.csproj" />
     <ProjectReference Include="..\Acme.FlightManager.Plane.UseCase\Acme.FlightManager.Plane.UseCase.csproj" />
   </ItemGroup>

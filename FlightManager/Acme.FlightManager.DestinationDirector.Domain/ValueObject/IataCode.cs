@@ -1,4 +1,4 @@
-﻿using Acme.Base.Domain.ValueObject;
+﻿using Acme.SharedKernel.Domain.ValueObject;
 using Acme.FlightManager.Text;
 using FluentValidation;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using Acme.Base.Domain.CosmosDb.Repository;
+﻿using Acme.SharedKernel.Domain.CosmosDb.Repository;
 
 namespace Acme.FlightManager.FlightDirector.UseCase.Command;
 

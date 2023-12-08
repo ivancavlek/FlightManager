@@ -1,8 +1,8 @@
-﻿using Acme.Base.Domain;
-using Acme.Base.Domain.Command;
-using Acme.Base.Domain.CosmosDb.Repository;
-using Acme.Base.Domain.Entity;
-using Acme.Base.Domain.Messaging;
+﻿using Acme.SharedKernel.Domain;
+using Acme.SharedKernel.Domain.Command;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
+using Acme.SharedKernel.Domain.Entity;
+using Acme.SharedKernel.Domain.Messaging;
 using Acme.FlightManager.Common;
 using Acme.FlightManager.Plane.DataTransferObject;
 using Acme.FlightManager.Plane.Domain.Entity;
@@ -36,6 +36,8 @@ public sealed record CorrectAirplaneDataCommand(Guid AirplaneId, PlaneConfigurat
 
             _messagePublisher.PublishMessage(
                 new CorrectedAirplaneDataEvent(airplane.Id, airplane.Configuration));
+
+            // send Email - Saga?
 
             return airplane.ConvertTo<AirplaneDto>();
         }

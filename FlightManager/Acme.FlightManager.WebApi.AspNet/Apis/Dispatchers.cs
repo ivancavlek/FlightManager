@@ -1,5 +1,5 @@
-﻿using Acme.Base.Domain.Command;
-using Acme.Base.Domain.Query;
+﻿using Acme.SharedKernel.Domain.Command;
+using Acme.SharedKernel.Domain.Query;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;

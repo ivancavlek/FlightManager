@@ -1,13 +1,13 @@
-﻿using Acme.SharedKernel.Domain;
+﻿using Acme.FlightManager.Common;
+using Acme.FlightManager.Plane.DataTransferObject;
+using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.FlightManager.Plane.Domain.ValueObject;
+using Acme.SharedKernel.Domain;
 using Acme.SharedKernel.Domain.Command;
 using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.SharedKernel.Domain.Entity;
 using Acme.SharedKernel.Domain.Messaging;
 using Acme.SharedKernel.Domain.Service;
-using Acme.FlightManager.Common;
-using Acme.FlightManager.Plane.DataTransferObject;
-using Acme.FlightManager.Plane.Domain.Entity;
-using Acme.FlightManager.Plane.Domain.ValueObject;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ public sealed record AddAirplaneToTheFleetCommand(
             var newAirplaneInTheFleet = Airplane.AddAirplaneToTheFleet(
                 command.Type, command.Configuration, command.Country, command.AirplaneRegistration, _timeService);
 
-            await _unitOfWork.Upsert(newAirplaneInTheFleet).CommitAsync().ConfigureAwait(false);
+            await _unitOfWork.Upsert(newAirplaneInTheFleet).CommitAsync(cancellationToken).ConfigureAwait(false);
 
             _messagePublisher.PublishMessage(new AddedAirplaneToTheFleetEvent(
                 newAirplaneInTheFleet.Id,

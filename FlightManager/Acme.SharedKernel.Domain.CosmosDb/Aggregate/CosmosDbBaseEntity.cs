@@ -17,6 +17,6 @@ public abstract class CosmosDbBaseEntity : BaseEntity
         : base(identityFactory)
     {
         Discriminator = GetType().Name;
-        PartitionKey = partitionKeyFactory is null ? id.ToString() : partitionKeyFactory.CreatePartitionKey();
+        PartitionKey = partitionKeyFactory is null ? Id.ToString() : partitionKeyFactory.CreatePartitionKey();
     }
 }

@@ -8,14 +8,15 @@ namespace Acme.SharedKernel.Domain.Entity;
 public abstract class BaseEntity
 {
     private readonly List<IDomainEvent> _domainEvents;
-    protected readonly Guid id;
+
+    public Guid Id { get; init; }
 
     protected BaseEntity() { }
 
     protected BaseEntity(IIdentityFactory<Guid> identityFactory)
     {
-        _domainEvents = new();
-        id = identityFactory.CreateIdentity();
+        _domainEvents = [];
+        Id = identityFactory.CreateIdentity();
     }
 
     public IReadOnlyCollection<IDomainEvent> GetDomainEvents() =>
@@ -31,10 +32,10 @@ public abstract class BaseEntity
         Equals(obj as BaseEntity);
 
     public bool Equals(BaseEntity otherEntity) =>
-        ReferenceEquals(otherEntity, this) && otherEntity.id.Equals(id);
+        ReferenceEquals(otherEntity, this) && otherEntity.Id.Equals(Id);
 
     public override int GetHashCode() =>
-        id.GetHashCode();
+        Id.GetHashCode();
 
     public static bool operator ==(BaseEntity x, BaseEntity y) =>
         Equals(x, y);

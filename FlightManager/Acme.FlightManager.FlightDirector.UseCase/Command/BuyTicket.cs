@@ -1,9 +1,9 @@
-﻿using Acme.SharedKernel.Domain;
-using Acme.SharedKernel.Domain.Command;
-using Acme.SharedKernel.Domain.CosmosDb.Repository;
-using Acme.FlightManager.Common;
+﻿using Acme.FlightManager.Common;
 using Acme.FlightManager.FlightDirector.DataTransferObject;
 using Acme.FlightManager.FlightDirector.Domain.Entity;
+using Acme.SharedKernel.Domain;
+using Acme.SharedKernel.Domain.Command;
+using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using FluentValidation;
 using System;
 using System.Threading;
@@ -24,7 +24,7 @@ public sealed record BuyTicketCommand(
         async Task<TicketDto> ICommandHandler<BuyTicketCommand, TicketDto>.HandleAsync(
             BuyTicketCommand command, CancellationToken cancellationToken)
         {
-            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId.Value);
+            var flight = await Repository.GetSingleAsync<Flight>(command.FlightId.Value, cancellationToken);
 
             var ticket = flight.BuyTicketForGuest(
                 command.DateOfBirth, command.Gender, command.FirstName, command.LastName, command.Seat);

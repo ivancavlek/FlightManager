@@ -1,13 +1,13 @@
-﻿using Acme.SharedKernel.Domain.Entity;
-using Acme.SharedKernel.Domain.Factory;
-using Acme.FlightManager.Common.Domain.Entity;
+﻿using Acme.FlightManager.Common.Domain.Entity;
 using Acme.FlightManager.DestinationDirector.Domain.ValueObject;
+using Acme.SharedKernel.Domain.Entity;
+using Acme.SharedKernel.Domain.Factory;
 using System;
 using System.Collections.ObjectModel;
 
 namespace Acme.FlightManager.DestinationDirector.Domain.Entity;
 
-public class Route : BaseEntity, IAggregateRoot, IRoute
+public class Route : BaseEntity, IRoute
 {
     // ToDo: Could we play with Graph Database?
     // ToDo: maybe with actual coordinates to calculate hours

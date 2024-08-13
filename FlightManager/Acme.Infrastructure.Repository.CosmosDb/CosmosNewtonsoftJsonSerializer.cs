@@ -1,6 +1,5 @@
 ﻿using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
 using Acme.SharedKernel.Domain.Entity;
-using Acme.SharedKernel.Domain.ValueObject;
 using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -98,9 +97,7 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
             var jsonProperty = base.CreateProperty(memberInfo, memberSerialization);
 
             SetPrivateSetPropertiesAsWritable(jsonProperty, memberInfo);
-            SetIdFieldAsId(jsonProperty);
-            IgnoreStronglyTypedIds(jsonProperty);
-            //SetIdInInsideEntityToLowercase(jsonProperty);
+            SetIdInInsideEntityToLowercase(jsonProperty);
             SetETagInInsideEntityToProperCase(jsonProperty);
             DoNotWriteEmptyCollections(jsonProperty);
 
@@ -113,24 +110,12 @@ public class CosmosNewtonsoftJsonSerializer : CosmosSerializer
                 jsonProperty.Writable = propertyInfo.GetSetMethod(true) is not null;
         }
 
-        private static void SetIdFieldAsId(JsonProperty jsonProperty)
+        private static void SetIdInInsideEntityToLowercase(JsonProperty jsonProperty)
         {
-            if (jsonProperty.PropertyName is "id")
-                jsonProperty.Readable = jsonProperty.Writable = true;
+            if (jsonProperty.DeclaringType.IsAssignableFrom(typeof(BaseEntity)) &&
+                jsonProperty.PropertyName.Equals(nameof(BaseEntity.Id)))
+                jsonProperty.PropertyName = nameof(BaseEntity.Id).ToLowerInvariant();
         }
-
-        private static void IgnoreStronglyTypedIds(JsonProperty jsonProperty)
-        {
-            if (jsonProperty.PropertyName is nameof(IMainIdentity<IdValueObject>.Id))
-                jsonProperty.Ignored = true;
-        }
-
-        //private static void SetIdInInsideEntityToLowercase(JsonProperty jsonProperty)
-        //{
-        //    if (jsonProperty.DeclaringType.IsAssignableFrom(typeof(BaseEntity)) &&
-        //        jsonProperty.PropertyName.Equals(nameof(BaseEntity.Id)))
-        //        jsonProperty.PropertyName = nameof(BaseEntity.Id).ToLowerInvariant();
-        //}
 
         private static void SetETagInInsideEntityToProperCase(JsonProperty jsonProperty)
         {

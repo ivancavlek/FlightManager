@@ -1,10 +1,10 @@
-﻿using Acme.SharedKernel.Domain;
+﻿using Acme.FlightManager.Plane.DataTransferObject;
+using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.SharedKernel.Domain;
 using Acme.SharedKernel.Domain.Command;
 using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.SharedKernel.Domain.Entity;
 using Acme.SharedKernel.Domain.Messaging;
-using Acme.FlightManager.Plane.DataTransferObject;
-using Acme.FlightManager.Plane.Domain.Entity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,12 +25,12 @@ public sealed record SoldAirplaneCommand(Guid AirplaneId, string AirplaneRegistr
             SoldAirplaneCommand command, CancellationToken cancellationToken)
         {
             var airplane = await _repository
-                .GetSingleAsync<Airplane>(command.AirplaneId, _partitionKeyFactory)
+                .GetSingleAsync<Airplane>(command.AirplaneId, _partitionKeyFactory, cancellationToken)
                 .ConfigureAwait(false);
 
             airplane.Sold();
 
-            await _unitOfWork.Upsert(airplane).CommitAsync().ConfigureAwait(false);
+            await _unitOfWork.Upsert(airplane).CommitAsync(cancellationToken).ConfigureAwait(false);
 
             _messagePublisher.PublishMessage(new RemovedAirplaneFromTheFleetEvent(airplane.Id));
 

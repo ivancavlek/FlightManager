@@ -1,12 +1,12 @@
-﻿using Acme.SharedKernel.Domain;
+﻿using Acme.FlightManager.Common;
+using Acme.FlightManager.Plane.DataTransferObject;
+using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.FlightManager.Plane.Domain.ValueObject;
+using Acme.SharedKernel.Domain;
 using Acme.SharedKernel.Domain.Command;
 using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.SharedKernel.Domain.Entity;
 using Acme.SharedKernel.Domain.Messaging;
-using Acme.FlightManager.Common;
-using Acme.FlightManager.Plane.DataTransferObject;
-using Acme.FlightManager.Plane.Domain.Entity;
-using Acme.FlightManager.Plane.Domain.ValueObject;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,12 +27,12 @@ public sealed record CorrectAirplaneDataCommand(Guid AirplaneId, PlaneConfigurat
             CorrectAirplaneDataCommand command, CancellationToken cancellationToken)
         {
             var airplane = await _repository
-                .GetSingleAsync<Airplane>(command.AirplaneId, _partitionKeyFactory)
+                .GetSingleAsync<Airplane>(command.AirplaneId, _partitionKeyFactory, cancellationToken)
                 .ConfigureAwait(false);
 
             airplane.SetConfiguration(command.Configuration);
 
-            await _unitOfWork.Upsert(airplane).CommitAsync().ConfigureAwait(false);
+            await _unitOfWork.Upsert(airplane).CommitAsync(cancellationToken).ConfigureAwait(false);
 
             _messagePublisher.PublishMessage(
                 new CorrectedAirplaneDataEvent(airplane.Id, airplane.Configuration));

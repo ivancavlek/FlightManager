@@ -1,12 +1,11 @@
-﻿using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
-using Acme.SharedKernel.Domain.Entity;
-using Acme.SharedKernel.Domain.Factory;
-using Acme.SharedKernel.Domain.Service;
-using Acme.SharedKernel.Domain.ValueObject;
-using Acme.FlightManager.Common;
+﻿using Acme.FlightManager.Common;
 using Acme.FlightManager.Plane.Domain.Factory;
 using Acme.FlightManager.Plane.Domain.ValueObject;
 using Acme.FlightManager.Text;
+using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
+using Acme.SharedKernel.Domain.Factory;
+using Acme.SharedKernel.Domain.Service;
+using Acme.SharedKernel.Domain.ValueObject;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
@@ -15,7 +14,7 @@ using System.Linq;
 
 namespace Acme.FlightManager.Plane.Domain.Entity;
 
-public class Airplane : CosmosDbBaseEntity/*RelationalBaseEntity*/, IMainIdentity<AirplaneId>, IAggregateRoot
+public class Airplane : CosmosDbBaseEntity
 {
     public AcmePeriod Active { get; private set; }
     public AirplaneConfiguration Configuration { get; private set; }
@@ -25,7 +24,7 @@ public class Airplane : CosmosDbBaseEntity/*RelationalBaseEntity*/, IMainIdentit
     [JsonConverter(typeof(StringEnumConverter))] // ToDo: Delete NuGet Package once resolved
     public AirplaneStatus Status { get; set; }
     public AirplaneType Type { get; private set; }
-    public AirplaneId Id => new(id);
+    public new AirplaneId Id => new(base.Id);
 
     private class A320Airplane : Airplane
     {
@@ -116,9 +115,4 @@ public class Airplane : CosmosDbBaseEntity/*RelationalBaseEntity*/, IMainIdentit
             .AsReadOnly();
 }
 
-public sealed class AirplaneId : IdValueObject
-{
-    private AirplaneId() { }
-
-    internal AirplaneId(Guid id) : base(id) { }
-}
+public readonly record struct AirplaneId(Guid Value);

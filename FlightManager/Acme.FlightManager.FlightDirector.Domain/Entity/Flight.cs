@@ -1,21 +1,15 @@
-﻿using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
+﻿using Acme.FlightManager.Common;
+using Acme.FlightManager.Common.Domain.Entity;
+using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
 using Acme.SharedKernel.Domain.Entity;
 using Acme.SharedKernel.Domain.Factory;
-using Acme.SharedKernel.Domain.ValueObject;
-using Acme.FlightManager.Common;
-using Acme.FlightManager.Common.Domain.Entity;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Acme.FlightManager.FlightDirector.Domain.Entity;
 
-public sealed class Flight :
-    CosmosDbBaseEntity,
-    IMainIdentity<Flight.FlightId>,
-    IAggregateRoot,
-    IPlaneConfiguration,
-    IRoute
+public sealed class Flight : CosmosDbBaseEntity, IPlaneConfiguration, IRoute
 {
     private readonly List<Ticket> _tickets;
 
@@ -27,7 +21,7 @@ public sealed class Flight :
     public string PointOfDeparture { get; private set; }
     public Guid RouteId { get; private set; }
     public ReadOnlyCollection<IDomainEvent> DomainEvents { get; }
-    public FlightId Id => new(id);
+    public FlightId Id => new(base.Id);
 
     private Flight() { }
 
@@ -64,7 +58,7 @@ public sealed class Flight :
         return new(new GuidIdentityFactory());
     }
 
-    public sealed class Ticket : BaseEntity, IMainIdentity<TicketId>, IPassengerInformation
+    public sealed class Ticket : BaseEntity, IPassengerInformation
     {
         public DateOnly DateOfBirth { get; private set; }
         public FlightId FlightId { get; private set; }
@@ -72,7 +66,7 @@ public sealed class Flight :
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public int Seat { get; private set; }
-        public TicketId Id => new(id);
+        public new TicketId Id => new(base.Id);
 
         private Ticket() { }
 
@@ -99,13 +93,7 @@ public sealed class Flight :
             new(new GuidIdentityFactory(), flight, dateOfBirth, gender, firstName, lastName, seat);
     }
 
-    public class FlightId : IdValueObject
-    {
-        internal protected FlightId(Guid id) : base(id) { }
-    }
+    public readonly record struct FlightId(Guid Value);
 }
 
-public class TicketId : IdValueObject
-{
-    public TicketId(Guid id) : base(id) { }
-}
+public readonly record struct TicketId(Guid Value);

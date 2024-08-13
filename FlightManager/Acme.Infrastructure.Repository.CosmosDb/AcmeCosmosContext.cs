@@ -1,4 +1,5 @@
-﻿using Acme.SharedKernel.Domain.CosmosDb.Factory;
+﻿using Acme.SharedKernel.Domain.CosmosDb.Aggregate;
+using Acme.SharedKernel.Domain.CosmosDb.Factory;
 using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.SharedKernel.Domain.Repository;
 using Microsoft.Azure.Cosmos;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Acme.Base.Repository.CosmosDb;
@@ -24,11 +26,11 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         _container = database.GetContainer(containerName);
     }
 
-    async Task IUnitOfWork.CommitAsync()
+    async Task IUnitOfWork.CommitAsync(CancellationToken cancellationToken)
     {
         if (_transactionCount > 0)
         {
-            using var response = await _transaction.ExecuteAsync().ConfigureAwait(false);
+            using var response = await _transaction.ExecuteAsync(cancellationToken).ConfigureAwait(false);
 
             _transactionCount = 0;
 
@@ -39,7 +41,9 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
     }
 
     async Task<IReadOnlyCollection<TAggregateRoot>> ICosmosDbRepository.GetAllAsync<TAggregateRoot>(
-        Expression<Func<TAggregateRoot, bool>> query, IPartitionKeyFactory partitionKeyFactory)
+        Expression<Func<TAggregateRoot, bool>> query,
+        IPartitionKeyFactory partitionKeyFactory,
+        CancellationToken cancellationToken)
     {
         var iterator = _container
             .GetItemLinqQueryable<TAggregateRoot>(
@@ -55,7 +59,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
 
         while (iterator.HasMoreResults)
         {
-            var result = await iterator.ReadNextAsync().ConfigureAwait(false);
+            var result = await iterator.ReadNextAsync(cancellationToken).ConfigureAwait(false);
             //var index = result.IndexMetrics;
             //var cost = result.RequestCharge;
             //var diagnostics = result.Diagnostics;
@@ -65,12 +69,14 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         return results;
     }
 
-    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(Guid id) // ToDo: I vote for simple type, because this library can be then reused, otherwise it's bound to specific projects
+    async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(
+        Guid id, CancellationToken cancellationToken)
     {
         try
         {
             return await _container
-                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(id.ToString()))
+                .ReadItemAsync<TAggregateRoot>(
+                    id.ToString(), new PartitionKey(id.ToString()), cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (CosmosException ex) when (ItemIsNotFound(ex))
@@ -88,12 +94,15 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
     }
 
     async Task<TAggregateRoot> ICosmosDbRepository.GetSingleAsync<TAggregateRoot>(
-        Guid id, IPartitionKeyFactory partitionKeyFactory)
+        Guid id, IPartitionKeyFactory partitionKeyFactory, CancellationToken cancellationToken)
     {
         try
         {
             return await _container
-                .ReadItemAsync<TAggregateRoot>(id.ToString(), new PartitionKey(partitionKeyFactory.CreatePartitionKey()))
+                .ReadItemAsync<TAggregateRoot>(
+                    id.ToString(),
+                    new PartitionKey(partitionKeyFactory.CreatePartitionKey()),
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
         }
         catch (CosmosException ex) when (ItemIsNotFound(ex))
@@ -110,7 +119,7 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
             (ex as CosmosException).StatusCode == HttpStatusCode.NotFound;
     }
 
-    ICosmosDbUpsertUnitOfWork ICosmosDbUpsertUnitOfWork.Upsert<TAggregateRoot>(TAggregateRoot aggregateRoot)
+    ICosmosDbUpsertUnitOfWork ICosmosDbUpsertUnitOfWork.Upsert(CosmosDbBaseEntity aggregateRoot)
     {
         if (aggregateRoot is null)
             return this;
@@ -125,14 +134,14 @@ public sealed class AcmeCosmosContext : ICosmosDbUpsertUnitOfWork, ICosmosDbDele
         return this;
     }
 
-    ICosmosDbDeleteUnitOfWork ICosmosDbDeleteUnitOfWork.Delete<TAggregateRoot>(TAggregateRoot aggregateRoot)
+    ICosmosDbDeleteUnitOfWork ICosmosDbDeleteUnitOfWork.Delete(CosmosDbBaseEntity aggregateRoot)
     {
         if (aggregateRoot is null)
             return this;
 
         _transaction ??= _container.CreateTransactionalBatch(new PartitionKey(aggregateRoot.PartitionKey));
 
-        _transaction.DeleteItem(aggregateRoot.Id.Value.ToString());
+        _transaction.DeleteItem(aggregateRoot.Id.ToString());
         ++_transactionCount;
 
         return this;

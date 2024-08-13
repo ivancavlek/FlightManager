@@ -1,8 +1,8 @@
-﻿using Acme.SharedKernel.Domain;
+﻿using Acme.FlightManager.Plane.DataTransferObject;
+using Acme.FlightManager.Plane.Domain.Entity;
+using Acme.SharedKernel.Domain;
 using Acme.SharedKernel.Domain.CosmosDb.Repository;
 using Acme.SharedKernel.Domain.Query;
-using Acme.FlightManager.Plane.DataTransferObject;
-using Acme.FlightManager.Plane.Domain.Entity;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +19,8 @@ public sealed record GetAirplaneQuery(Guid AirplaneId, string AirplaneRegistrati
 
         async Task<AirplaneDto> IQueryHandler<GetAirplaneQuery, AirplaneDto>.HandleAsync(
             GetAirplaneQuery query, CancellationToken cancellationToken) =>
-            (await _repository.GetSingleAsync<Airplane>(query.AirplaneId, _partitionKeyFactory).ConfigureAwait(false))
+            (await _repository.GetSingleAsync<Airplane>(
+                    query.AirplaneId, _partitionKeyFactory, cancellationToken).ConfigureAwait(false))
                 .ConvertTo<AirplaneDto>();
     }
 }
